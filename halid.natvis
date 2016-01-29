@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+
+<Type Name="Matrix">
+    <DisplayString>{{ r={r} , m={m} , type={type} }}</DisplayString>
+    <Expand>
+        <ArrayItems>
+          <Direction>Forward</Direction>
+          <Rank>2</Rank>
+          <Size>$i==0 ? r : m</Size>
+          <ValuePointer>data</ValuePointer>
+        </ArrayItems>
+    </Expand>
+</Type>
+
+<Type Name="Vector">
+    <DisplayString>{{ n={n},type={type} }}</DisplayString>
+    <Expand>
+        <ArrayItems>
+            <Size>n</Size>
+            <ValuePointer>data</ValuePointer>
+        </ArrayItems>
+    </Expand>
+</Type>
+
+
+</AutoVisualizer>
