@@ -13,22 +13,6 @@
 #define isnan _isnan
 #endif
 
-#ifdef	 __USE_ISOC99
-/* INFINITY and NAN are defined by the ISO C99 standard */
-#else
-double my_infinity(void) {
-  double zero = 0;
-  return 1.0/zero;
-}
-double my_nan(void) {
-  double zero = 0;
-  return zero/zero;
-}
-#define INFINITY my_infinity()
-#define NAN my_nan()
-#endif
-
-
 double gammaln(double x)
 {
   #define M_lnSqrt2PI 0.91893853320467274178
