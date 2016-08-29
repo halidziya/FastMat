@@ -13,75 +13,99 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Distributions">
+      <UniqueIdentifier>{2c97f4b5-a67a-4675-bca2-0ba567970fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Matrix">
+      <UniqueIdentifier>{127f6ef9-e591-4398-9012-e5bbfdfa6788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Thread">
+      <UniqueIdentifier>{3aaf4e28-d7ad-496e-9a87-59d9cf4ab5b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Distributions">
+      <UniqueIdentifier>{836ad1ef-e78f-4098-a084-f1e91622f4bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{968f2963-b5ac-4716-bb65-75cf4fb54d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Matrix">
+      <UniqueIdentifier>{2be67017-f8c7-4f6d-8791-ed2a7abffd3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Global.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Normal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Stut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThreadPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Vector.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Dirichlet.cpp">
+      <Filter>Source Files\Distributions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Distribution.cpp">
+      <Filter>Source Files\Distributions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Normal.cpp">
+      <Filter>Source Files\Distributions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Stut.cpp">
+      <Filter>Source Files\Distributions</Filter>
     </ClCompile>
     <ClCompile Include="..\IWishart.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Distributions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Dirichlet.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Buffer.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThreadPool.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Matrix.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vector.cpp">
+      <Filter>Source Files\Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\DebugUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Normal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Stut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThreadPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Vector.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Stut.h">
+      <Filter>Header Files\Distributions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Normal.h">
+      <Filter>Header Files\Distributions</Filter>
     </ClInclude>
     <ClInclude Include="..\IWishart.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Distributions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Distribution.h">
+      <Filter>Header Files\Distributions</Filter>
     </ClInclude>
     <ClInclude Include="..\Dirichlet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Distributions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Matrix.h">
+      <Filter>Header Files\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Vector.h">
+      <Filter>Header Files\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Buffer.h">
+      <Filter>Header Files\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThreadPool.h">
+      <Filter>Header Files\Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -91,5 +115,8 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\halid.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
