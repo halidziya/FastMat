@@ -80,6 +80,19 @@ double Vector::operator*(Vector& v) // Dot product
 	return res;
 }
 
+/*Vector Vector::operator*(Matrix& m)
+{
+	Vector& v2 = buffer.get();
+	double res = 0;
+
+	for (auto k = 0; k < m.m; k++) {
+		res = 0;
+		for (auto j = 0; j < m.m; j++)
+			res += data[k] * m.data[k*m.m + j]; // Iterate 
+		v2.data[k] = res;
+	}
+	return buffer.next();
+}*/
 
 
 inline double& Vector::operator[](const int i){

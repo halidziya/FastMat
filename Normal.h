@@ -1,19 +1,18 @@
 #pragma once
 #include "Matrix.h"
-#include <random>
+#include "Distribution.h"
 
-class Normal
+class Normal : public Distribution<Vector>
 {
 public:
 	Vector mu;
 	Matrix cholsigma;
-	default_random_engine generator;
 	int d;
 	double normalizer;
 	Normal(void);
 	Normal(int d); // dimensions
 	Normal(Vector& mu, Matrix& sigma);
-
+	double sumlogdiag;
 	~Normal(void);
 	double likelihood(Vector& x);
 	Vector rnd();

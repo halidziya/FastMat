@@ -26,4 +26,14 @@
 </Type>
 
 
+  <Type Name="Table">
+    <DisplayString>{{ n={totalpoints}}}</DisplayString>
+    <Expand>
+      <Item Name="[mu]" ExcludeView="simple">datadist.mu</Item>
+      <Item Name="[cholsigma]" ExcludeView="simple">datadist.cholsigma</Item>
+    </Expand>
+  </Type>
+
+
+
 </AutoVisualizer>

@@ -46,8 +46,9 @@ public:
 	inline double& operator[](const int i);
 	int		operator()(int i);	 // Return integer
 	double operator*(Vector& v); // Inner product
+	//Vector operator*(Matrix& m); //
 	Vector operator-(Vector& v); // Subtraction
-	Vector operator/(Matrix& mat); // Cholesky matrix division
+	Vector operator/(Matrix& mat); // Matrix division
 	Vector operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
 	void operator<=(const Vector& v); // Abstract Assignment

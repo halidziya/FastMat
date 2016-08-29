@@ -109,7 +109,7 @@ void Matrix::readBin(char* filename)
 	int i,j;
 	double val;
 	if (file==NULL)
-		printf("Could not open file...\n");
+		printf("Could not open file... %s\n",filename);
 	else
 	{
 		printf("Reading %s...\n",filename);

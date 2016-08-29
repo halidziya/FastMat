@@ -1,9 +1,8 @@
 #include "Normal.h"
 #include "util.h"
 
-Normal::Normal(void)
+Normal::Normal(void):Normal(d)
 {
-	normalizer = -(d * 0.5)*log(2 * M_PI);
 }
 
 
@@ -18,21 +17,35 @@ Normal::Normal(int d)
 	cholsigma = zeros(d,d);
 	this->d = d;
 	normalizer = -(d * 0.5)*log(2*M_PI);
+	sumlogdiag = 0;
 }
 
 Normal::Normal(Vector& mu, Matrix& sigma)
 {
 	this->mu = mu;
 	cholsigma = sigma.chol();
+	sumlogdiag = cholsigma.sumlogdiag();
 	this->d = sigma.m;
 	normalizer = -(d * 0.5)*log(2 * M_PI);
 }
 
 double Normal::likelihood(Vector& x)
 {
-	Vector v = (x - mu) / cholsigma; // Copy constructor
-	double distsq = v*v;
-	return   normalizer - cholsigma.sumlogdiag() - 0.5*distsq;
+	//Performance critical function
+	//Vector& v = (x - mu) / cholsigma; // Copy constructor
+	double dist = 0,disti=0;
+	Vector dd = x - mu;
+	int i, j;
+	for (i = 0; i < d; i++) {
+		disti = dd.data[i] / cholsigma.data[i*d + i];
+		for (j = d - 1; j>i; j--)								 // Subtract  , Triangular matrix , filled upto j
+		{
+			dd.data[j] -= cholsigma.data[j*d + i] * disti;
+		}
+		dist += disti*disti;
+	}
+	//double distsq = v*v;
+	return   normalizer - sumlogdiag -0.5*dist; //- 0.5*distsq
 	return 0;
 }
 
@@ -48,5 +61,5 @@ Vector Normal::rnd()
 			v[i] = normal(generator);
 		}
 		
-		return (mu - cholsigma*v);
+		return (mu - cholsigma.transpose()*v);
 }

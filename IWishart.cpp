@@ -1,8 +1,9 @@
 #include "IWishart.h"
 
 
-IWishart::IWishart(Matrix& psi,int df):psi(psi),df(df)
+IWishart::IWishart(Matrix& psi,int df):df(df)
 {
+	this->psi = psi;
 }
 
 Matrix IWishart::rnd()
@@ -14,16 +15,15 @@ Matrix IWishart::rnd()
 	X.zero();
 	for (auto i = 0; i < psi.m; i++)
 	{
+		chi = chi_squared_distribution<double>(df-i);
 		X(i,i) = sqrt(chi(generator));
 		for (auto j = i+1; j < psi.m; j++)
 		{
 			X(i,j) = normal(generator);
 		}
 	}
-
-	
-	Matrix& fet = X*psi.qr().chol().inverse();
-	Matrix& T = fet.qr().inverse();
+	//  Transposed as compare to MATLAB
+	Matrix& T = X.inverse()*this->psi.chol();
 	Matrix& wish = matbuffer.next();
 	wish = T.transpose()*T;
 	matbuffer.next();
@@ -31,7 +31,7 @@ Matrix IWishart::rnd()
 }
 
 
-double IWishart::likelihood()
+double IWishart::likelihood(Matrix& mat)
 {
 	// Not implemented yet
 	return 0;
