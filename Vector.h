@@ -19,14 +19,13 @@ using namespace std;
 	TYPE 0 : Abstract	vector , just a pointer
 	TYPE 1 : Standart	vector , allocates deallocates memory automatically
 	TYPE 2 : Buffer		vector , calculations are used on top.
-
 */
-
 class Vector{
 public:
 	double* data;
 	int n;
 	int type;
+	//Default Vector is real , first parameter is the size of the vector
 	Vector(int size,int real=1);
 	Vector(int size, int real, double fill); // Fill constructor
 	~Vector(void);
@@ -45,6 +44,10 @@ public:
 
 
 	inline double& operator[](const int i);
+
+	// Sub vector based on indices, it does not allow assignment, it creates a new vector
+	Vector operator[](Vector& idx); 
+
 	int		operator()(int i);	 // Return integer
 	double operator*(Vector& v); // Inner product
 	//Vector operator*(Matrix& m); //
@@ -57,11 +60,12 @@ public:
 	// Inplace operations changes actual vector
 	void operator-=(const Vector& v); // Inplace subtraction works on arbitrary size
 	void operator+=(const Vector& v); // Inplace addition works on arbitrary size
-	void apply(double(*f)(double));  // Inplace application of function to each element
+	void transform(double(*f)(double));  // Inplace application of function to each element
 	void operator-=(double scalar); // Inplace subtraction works on arbitrary size
 	void operator+=(double scalar); // Inplace addition works on arbitrary size
 	void operator/=(double scalar); // Inplace subtraction works on arbitrary size
 	void operator*=(double scalar); // Inplace addition works on arbitrary size
+	void operator*=(const Vector& v); // Inplace addition works on arbitrary size
 
 	
 	Vector operator*(double scalar); // Scaling
@@ -75,11 +79,13 @@ public:
 	Vector operator>=(double scalar);
 
 
-	// Scaling
-	Matrix operator>>(Vector& v);	// Outer product
-	Vector operator<<(Vector& v);	// Elementwise Product
+	// Outer Product
+	Matrix operator>>(Vector& v);
+	// Elementwise Product
+	Vector operator<<(Vector& v);	
 	
 	double maximum();
+	double minimum();
 	double sum();
 	double mean();
 
@@ -89,7 +95,8 @@ public:
 	Vector sqr();					// Elementwise sqr
 	double norm();					// Euclidian norm
 	Vector exp();					// Elementwise log
-	
+	Vector apply(double(*f)(double));
+
 	Matrix outer(Vector& v);					// Outer product
 	void   put(int idx, Vector& data); // Put,copy a vector to specific location
 	Vector append(Vector& v);

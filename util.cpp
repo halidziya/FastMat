@@ -100,14 +100,14 @@ int sampleFromLog(Vector & v)
 	int n = v.n;
 	double max = v.maximum();
 	v -= max;
-	v.apply(exp); // In-place use apply
+	v.transform(exp); // In-place use transform
 	v /= v.sum();
 	return sample(v);
 }
 
 vector<int> trange(int max, int nparts, int id)
 {
-	int chunksize = max / nparts;
+	int chunksize = ceil( (1.0*max) / nparts);
 	int start = chunksize*id;
 	int end = start+chunksize;
 	end = (end > max) ? max : end;

@@ -17,8 +17,7 @@ Vector Dirichlet::rnd()
 		v[i] = g(generator);
 	}
 	double s = v.sum();
-	for (auto i = 0; i < v.n; i++) // ==> Should be in vector library
-		v[i] = v[i] / s;
+	v /= s;
 	return v;
 }
 

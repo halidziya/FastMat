@@ -41,15 +41,15 @@ Vector::Vector(int size, int real, double fill) : Vector(size,real) // Fill cons
 Vector Vector::append(Vector& v)
 {
 	Vector res(this->n + v.n);
-	put(0, *this);
-	put(this->n, v);
+	res.put(0, *this);
+	res.put(this->n, v);
 	return res;
 }
 
 Vector Vector::append(double d)
 {
 	Vector res(this->n + 1);
-	put(0, *this);
+	res.put(0, *this);
 	res.data[n] = 1;
 	return res;
 }
@@ -112,6 +112,14 @@ double Vector::operator*(Vector& v) // Dot product
 
 inline double& Vector::operator[](const int i){
 		return data[i];
+}
+
+Vector Vector::operator[](Vector & idx)
+{
+	Vector result(idx.n);
+	for (int i = 0;i < idx.n;i++)
+		result[i] = data[int(idx[i])];
+	return result;
 }
 
 /* Return integer value */
@@ -197,6 +205,11 @@ void Vector::operator-=(const Vector & v)
 		data[i] -= v.data[i];
 }
 
+void Vector::operator*=(const Vector & v)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] *= v.data[i];
+}
 
 void Vector::operator+=(const Vector & v)
 {
@@ -206,7 +219,7 @@ void Vector::operator+=(const Vector & v)
 
 
 // Inplace application of function to each element
-void Vector::apply(double(*f)(double))
+void Vector::transform(double(*f)(double))
 {
 	for (auto i = 0;i < n;i++)
 		data[i] = f(data[i]);
@@ -439,29 +452,32 @@ Vector Vector::operator<<(Vector& v) // Elementwise product
 }
 
 
-Vector Vector::log() // Elementwise log
-{
+
+Vector Vector::apply(double(*f)(double)) {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i < n; i++)
-		vec.data[i] = ::log(data[i]); // Use global namespace function
+		vec.data[i] = f(data[i]); // Use global namespace function
 	return buffer.next();
 }
 
 
+Vector Vector::log() // Elementwise log
+{
+	return apply(::log);
+}
+
 Vector Vector::sqrt()
 {
-	Vector& vec = buffer.get();
-	for (auto i = 0; i < n; i++)
-		vec.data[i] = ::sqrt(data[i]); // Use global namespace function
-	return buffer.next();
+	return apply(::sqrt);
+}
+
+double sqr(double val){
+	return val*val;
 }
 
 Vector Vector::sqr() 
 {
-	Vector& vec = buffer.get();
-	for (auto i = 0; i < n; i++)
-		vec.data[i] = data[i] * data[i];
-	return buffer.next();
+	return apply(::sqr);
 }
 
 
@@ -491,6 +507,17 @@ double Vector::maximum()
 
 	return val;
 }
+
+double Vector::minimum()
+{
+	double val = data[0];
+	for (int i = 1;i<n;i++)
+		if (val>data[i])
+			val = data[i];
+
+	return val;
+}
+
 
 void Vector::put(int idx, Vector& dt)
 {
