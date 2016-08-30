@@ -120,5 +120,6 @@
     <None Include="ClassDiagram.cd" />
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
+    <None Include="Readme.md" />
   </ItemGroup>
 </Project>
