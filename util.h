@@ -20,3 +20,4 @@ void precomputeGammaLn(int size);
 Vector rand(int n, int max);
 Vector rand(int n);
 int sampleFromLog(Vector& v);
+vector<int> trange(int max, int nparts, int id);

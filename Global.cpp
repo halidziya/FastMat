@@ -5,6 +5,7 @@
  int m=0;
  int n=0;
  int T_eta = 0;
+ int nthd;
  double kappa=0;
  double gamma=0;
  Matrix Psi;

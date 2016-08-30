@@ -53,8 +53,17 @@ public:
 	Vector operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
 	void operator<<=(const Vector& v); // Abstract Assignment
-	void operator-=(const Vector& v);
-	void operator+=(const Vector& v);
+
+	// Inplace operations changes actual vector
+	void operator-=(const Vector& v); // Inplace subtraction works on arbitrary size
+	void operator+=(const Vector& v); // Inplace addition works on arbitrary size
+	void apply(double(*f)(double));  // Inplace application of function to each element
+	void operator-=(double scalar); // Inplace subtraction works on arbitrary size
+	void operator+=(double scalar); // Inplace addition works on arbitrary size
+	void operator/=(double scalar); // Inplace subtraction works on arbitrary size
+	void operator*=(double scalar); // Inplace addition works on arbitrary size
+
+	
 	Vector operator*(double scalar); // Scaling
 	Vector operator+(double scalar); // Add scalar to all elements
 	Vector operator-(double scalar); // Subtract scalar to all elements
@@ -73,6 +82,8 @@ public:
 	double maximum();
 	double sum();
 	double mean();
+
+	// Returns results to buffer, does not change actual vector
 	Vector log();					// Elementwise log
 	Vector sqrt();					// Elementwise sqrt
 	Vector sqr();					// Elementwise sqr

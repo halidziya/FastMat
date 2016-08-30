@@ -79,14 +79,39 @@ Vector rand(int n)
 	return rv;
 }
 
+
+int sample(Vector& v)
+{
+	double d = 0;
+	double r = urand();
+	int n = v.n;
+	int i;
+	for (i = 0; i < n;i++)
+	{
+		d += v[i];
+		if (d > r)
+			break;
+	}
+	return i;
+}
+
 int sampleFromLog(Vector & v)
 {
 	int n = v.n;
-	v = v - v.maximum();
-	v = v.exp();
-	v = v / v.sum();
-	double r = urand();
-	return int((v < r).sum());
+	double max = v.maximum();
+	v -= max;
+	v.apply(exp); // In-place use apply
+	v /= v.sum();
+	return sample(v);
+}
+
+vector<int> trange(int max, int nparts, int id)
+{
+	int chunksize = max / nparts;
+	int start = chunksize*id;
+	int end = start+chunksize;
+	end = (end > max) ? max : end;
+	return vector<int>({ start, end });
 }
 
 

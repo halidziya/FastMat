@@ -205,6 +205,43 @@ void Vector::operator+=(const Vector & v)
 }
 
 
+// Inplace application of function to each element
+void Vector::apply(double(*f)(double))
+{
+	for (auto i = 0;i < n;i++)
+		data[i] = f(data[i]);
+}
+
+
+void Vector::operator-=(double scalar)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] -= scalar;
+}
+
+void Vector::operator+=(double scalar)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] += scalar;
+}
+
+void Vector::operator/=(double scalar)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] /= scalar;
+}
+
+void Vector::operator*=(double scalar)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] *= scalar;
+}
+
+
+
+
+
+
 Vector  Vector::copy()
 {
 	Vector res(n);

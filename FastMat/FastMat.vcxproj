@@ -145,9 +145,6 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\Buffer.cpp" />
     <ClCompile Include="..\Dirichlet.cpp" />
     <ClCompile Include="..\Distribution.cpp" />
