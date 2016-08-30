@@ -43,6 +43,8 @@ public:
 	Matrix chol();
 	Matrix transpose();
 	Matrix inverse();
+	Matrix scatter();
+	Matrix cov();
 	Vector diag();
 	Matrix submat(int r1, int r2, int c1, int c2);
 	Matrix qr();
@@ -54,3 +56,6 @@ public:
 
 Matrix eye(int d);
 Matrix zeros(int d1, int d2);
+
+// You can create a matrix using mat({{1,2,3},{1,3,3},{1,4,3}})
+Matrix mat(std::initializer_list<std::initializer_list<double>> numbers);

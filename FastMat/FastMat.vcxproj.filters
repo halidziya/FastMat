@@ -64,10 +64,10 @@
       <Filter>Source Files\Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\Matrix.cpp">
-      <Filter>Source Files\Thread</Filter>
+      <Filter>Source Files\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="..\Vector.cpp">
-      <Filter>Source Files\Thread</Filter>
+      <Filter>Source Files\Matrix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,5 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="..\.gitattributes" />
+    <None Include="..\.gitignore" />
   </ItemGroup>
 </Project>

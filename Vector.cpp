@@ -46,6 +46,15 @@ Vector Vector::append(Vector& v)
 	return res;
 }
 
+Vector Vector::append(double d)
+{
+	Vector res(this->n + 1);
+	put(0, *this);
+	res.data[n] = 1;
+	return res;
+}
+
+
 
 
 Vector::Vector():n(0){type=0;data=NULL;} // Not yet real
@@ -126,6 +135,7 @@ Vector::Vector(Vector&& v)
 
 Vector::Vector(const Vector& v)
 {
+
 	n = v.n;
 	type = v.type;
 	switch (type) // Real or Buffer
@@ -175,7 +185,18 @@ void Vector::operator<=(const Vector& v)
 	data = v.data;
 }
 
+void Vector::operator-=(const Vector & v)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] -= v.data[i];
+}
 
+
+void Vector::operator+=(const Vector & v)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] += v.data[i];
+}
 
 
 Vector  Vector::copy()
@@ -326,6 +347,7 @@ Vector Vector::operator<<(Vector& v) // Elementwise product
 	return buffer.next();
 }
 
+
 Vector Vector::elog() // Elementwise log
 {
 	Vector& vec = buffer.get();
@@ -389,6 +411,7 @@ void Vector::put(int idx, Vector& dt)
 }
 
 
+
 ostream& operator<<(ostream& os, const Vector& v)
 {   // It does not save type , it save as real vector always
 	int one = 1;
@@ -413,12 +436,14 @@ istream& operator>>(istream& is, Vector& v)
 
 Vector zeros(int d)
 {
-	buffer.get().zero();
-	return buffer.next();
+	Vector v(d);
+	v.zero();
+	return v; // Should call move constructor
 }
 
 
 
+// You can create your vector using v({1,2,3})
 Vector v(std::initializer_list<double> numbers) { 
 	
 	int size = numbers.size();

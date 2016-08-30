@@ -52,12 +52,15 @@ public:
 	Vector operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
 	void operator<=(const Vector& v); // Abstract Assignment
+	void operator-=(const Vector& v);
+	void operator+=(const Vector& v);
 	Vector operator*(double scalar); // Scaling
 	Vector operator+(double scalar); // Add scalar to all elements
 	Vector operator+(Vector& v);	// Summation
 	Vector operator/(double scalar); // Scaling
 	Matrix operator>>(Vector& v);	// Outer product
 	Vector operator<<(Vector& v);	// Elementwise Product
+	
 	double maximum();
 	double sum();
 	double mean();
@@ -69,6 +72,8 @@ public:
 	Matrix outer(Vector& v);					// Outer product
 	void   put(int idx, Vector& data); // Put,copy a vector to specific location
 	Vector append(Vector& v);
+	Vector append(double d);
+
 
 	friend ostream& operator<<(ostream& os, const Vector& v);
 	friend istream& operator>>(istream& is, Vector& v);

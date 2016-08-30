@@ -291,6 +291,30 @@ Matrix Matrix::inverse()
 	return matbuffer.next();
 }
 
+Matrix Matrix::scatter() // Calculate covariance of data matrix
+{
+	Matrix meansc = matbuffer.next(); // Allocate this matrix first
+	Vector& v = this->mean();
+	meansc = (v >> v)*r;
+	Matrix mati = matbuffer.get();
+	mati.zero();
+
+	for (auto i = 0; i < r; i++) //
+		for (auto j = 0; j < m; j++) {
+			for (auto k = 0; k < m; k++) {
+				mati.data[j*m + k] += data[i*m + j] * data[i*m + k];
+			}
+		}
+
+	mati -= meansc;
+	return matbuffer.next();
+}
+
+Matrix Matrix::cov()
+{
+	return this->scatter() / (r - 1);
+}
+
 
 Matrix Matrix::operator*(const Matrix& mat)
 {
@@ -442,13 +466,30 @@ istream& operator>>(istream& is, Matrix& v)
 
 Matrix eye(int d)
 { 
-	// d is not used yet
-	matbuffer.get().eye();
-	return matbuffer.next();
+	Matrix m(d);
+	m.eye();
+	return m;
 }
 
 Matrix zeros(int d1, int d2)
 {
-	matbuffer.get().zero();
-	return matbuffer.next();
+	Matrix m(d1,d2);
+	m.zero();
+	return m;
+}
+
+
+// You can create a matrix using mat({{1,2,3},{1,3,3},{1,4,3}})
+Matrix mat(std::initializer_list<std::initializer_list<double>> numbers) {
+
+	int size = numbers.size();
+	Matrix m(size, size); // To do : It only supports square matrices now
+	int i = 0;
+	for (auto nums : numbers)
+		for (auto val : nums)
+		{
+			m.data[i] = val;
+			i = i + 1;
+		}
+	return m;
 }
