@@ -70,12 +70,18 @@ double Vector::norm()
 	double res = 0;
 	for (auto i = 0; i < n; i++)
 		res += data[i] * data[i];
-	return sqrt(res);
+	return ::sqrt(res);
 }
 
 void Vector::zero()
 {
 	memset(data,0,sizeof(double)*n);
+}
+
+void Vector::fill(double d)
+{
+	for (auto i = 0;i < n;i++)
+		data[i] = d;
 }
 
 
@@ -178,7 +184,7 @@ void Vector::operator=(const Vector& v)
 }
 
 // Abstract assignment
-void Vector::operator<=(const Vector& v)
+void Vector::operator<<=(const Vector& v)
 {
 	n = v.n;
 	type = 0;
@@ -201,7 +207,6 @@ void Vector::operator+=(const Vector & v)
 
 Vector  Vector::copy()
 {
-	int i;
 	Vector res(n);
 	memcpy(res.data,data,n*sizeof(double));
 	return res;
@@ -314,6 +319,39 @@ Vector Vector::operator/(double scalar)
 	return buffer.next();
 }
 
+Vector Vector::operator<(double scalar)
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = data[i] < scalar;
+	return buffer.next();
+}
+
+Vector Vector::operator>(double scalar)
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = data[i] >= scalar;
+	return buffer.next();
+}
+
+Vector Vector::operator<=(double scalar)
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = data[i] < scalar;
+	return buffer.next();
+}
+
+Vector Vector::operator>=(double scalar)
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = data[i] >= scalar;
+	return buffer.next();
+}
+
+
 Vector Vector::operator+(double scalar)
 {
 	Vector& r = buffer.get();
@@ -322,6 +360,22 @@ Vector Vector::operator+(double scalar)
 	return buffer.next();
 }
 
+Vector Vector::operator-(double scalar)
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = data[i] - scalar;
+	return buffer.next();
+}
+
+
+Vector Vector::exp()
+{
+	Vector& r = buffer.get();
+	for (int i = 0; i<n; i++)
+		r.data[i] = ::exp(data[i]);
+	return buffer.next();
+}
 
 Matrix Vector::operator>>(Vector& v) // Outer product
 {
@@ -348,24 +402,24 @@ Vector Vector::operator<<(Vector& v) // Elementwise product
 }
 
 
-Vector Vector::elog() // Elementwise log
+Vector Vector::log() // Elementwise log
 {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i < n; i++)
-		vec.data[i] = log(data[i]);
+		vec.data[i] = ::log(data[i]); // Use global namespace function
 	return buffer.next();
 }
 
 
-Vector Vector::esqrt()
+Vector Vector::sqrt()
 {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i < n; i++)
-		vec.data[i] = sqrt(data[i]);
+		vec.data[i] = ::sqrt(data[i]); // Use global namespace function
 	return buffer.next();
 }
 
-Vector Vector::esqr() 
+Vector Vector::sqr() 
 {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i < n; i++)
@@ -438,6 +492,13 @@ Vector zeros(int d)
 {
 	Vector v(d);
 	v.zero();
+	return v; // Should call move constructor
+}
+
+Vector ones(int d)
+{
+	Vector v(d);
+	v.fill(1);
 	return v; // Should call move constructor
 }
 

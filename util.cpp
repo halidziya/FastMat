@@ -70,6 +70,25 @@ Vector rand(int n, int max)
 	return v;
 }
 
+Vector rand(int n)
+{
+	Vector rv(n);
+	for (auto i = 0;i < n;i++)
+		rv[i] = urand();
+
+	return rv;
+}
+
+int sampleFromLog(Vector & v)
+{
+	int n = v.n;
+	v = v - v.maximum();
+	v = v.exp();
+	v = v / v.sum();
+	double r = urand();
+	return int((v < r).sum());
+}
+
 
 double harmean(double x,double y)
 {

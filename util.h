@@ -18,3 +18,5 @@ boolean checkVectors(Vector& v1, Vector& v2);
 extern Vector gl_pc;
 void precomputeGammaLn(int size);
 Vector rand(int n, int max);
+Vector rand(int n);
+int sampleFromLog(Vector& v);

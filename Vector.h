@@ -38,6 +38,7 @@ public:
 
 	void print();
 	void zero();
+	void fill(double d);
 	void resize(int size);
 	Vector copy();		// Returns real vector
 	Vector unique();	// Returns unique values 
@@ -51,23 +52,32 @@ public:
 	Vector operator/(Matrix& mat); // Matrix division
 	Vector operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
-	void operator<=(const Vector& v); // Abstract Assignment
+	void operator<<=(const Vector& v); // Abstract Assignment
 	void operator-=(const Vector& v);
 	void operator+=(const Vector& v);
 	Vector operator*(double scalar); // Scaling
 	Vector operator+(double scalar); // Add scalar to all elements
+	Vector operator-(double scalar); // Subtract scalar to all elements
 	Vector operator+(Vector& v);	// Summation
-	Vector operator/(double scalar); // Scaling
+	Vector operator/(double scalar); // Elementwise comparison
+	Vector operator<(double scalar); // Elementwise comparison
+	Vector operator>(double scalar);
+	Vector operator<=(double scalar); // Elementwise comparison
+	Vector operator>=(double scalar);
+
+
+	// Scaling
 	Matrix operator>>(Vector& v);	// Outer product
 	Vector operator<<(Vector& v);	// Elementwise Product
 	
 	double maximum();
 	double sum();
 	double mean();
-	Vector elog();					// Elementwise log
-	Vector esqrt();					// Elementwise sqrt
-	Vector esqr();					// Elementwise sqr
+	Vector log();					// Elementwise log
+	Vector sqrt();					// Elementwise sqrt
+	Vector sqr();					// Elementwise sqr
 	double norm();					// Euclidian norm
+	Vector exp();					// Elementwise log
 	
 	Matrix outer(Vector& v);					// Outer product
 	void   put(int idx, Vector& data); // Put,copy a vector to specific location
@@ -88,7 +98,7 @@ extern MultiBuffer<Matrix> matbuffer;
 
 void init_buffer(int nthreads,int d);
 Vector zeros(int d);
-
+Vector ones(int d);
 
 
 Vector v(std::initializer_list<double> numbers);

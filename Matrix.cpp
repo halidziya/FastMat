@@ -71,7 +71,6 @@ void Matrix::readMatrix(char* filename)
 {
 	ifstream file(filename);
 	int i,j;
-	double val;
 	if (!file.is_open())
 		printf("Could not operfile...\n");
 	else
@@ -106,8 +105,6 @@ void Matrix::readBin(char* filename)
 {
 	FILE* file;
 	fopen_s(&file,filename,"rb");
-	int i,j;
-	double val;
 	if (file==NULL)
 		printf("Could not open file... %s\n",filename);
 	else
@@ -127,7 +124,6 @@ void Matrix::writeBin(char* filename)
 {
 	FILE* file;
 	fopen_s(&file,filename,"wb");
-	int i,j;
 	fwrite(&r,sizeof(int),1,file);
 	fwrite(&m,sizeof(int),1,file);
 
@@ -161,7 +157,7 @@ double Matrix::sumlogdiag()
 	int i;
 	double sum=0;
 	for(i=0;i<d;i++)
-		sum += log(data[i+m*i]);
+		sum += ::log(data[i+m*i]);
 	return sum;
 }
 
@@ -186,7 +182,7 @@ Matrix Matrix::chol()
 
 	for (s=0,k = 0; k < i; k++)
 		s += mat.data[i* m  + k] * mat.data[i* m  + k];
-	mat.data[i*m + i] = sqrt(data[i* m  + i] - s);
+	mat.data[i*m + i] = ::sqrt(data[i* m  + i] - s);
 
 
 	}
@@ -201,7 +197,7 @@ Matrix Matrix::qr()
 {
 	// Modified gram schimit
 	double s = 0;
-	int i, j, k;
+	int i, j;
 	Matrix& Q = matbuffer.next();
 	Matrix& R = matbuffer.next();
 	Matrix& v = this->transpose(); // Work on row  vectors

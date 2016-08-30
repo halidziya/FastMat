@@ -13,6 +13,7 @@ Normal::~Normal(void)
 
 Normal::Normal(int d) 
 {
+	if (d < 0) d = 0;
 	mu = zeros(d);  
 	cholsigma = zeros(d,d);
 	this->d = d;
