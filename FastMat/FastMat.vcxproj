@@ -162,6 +162,7 @@
     <ClInclude Include="..\DebugUtils.h" />
     <ClInclude Include="..\Dirichlet.h" />
     <ClInclude Include="..\Distribution.h" />
+    <ClInclude Include="..\FastMat.h" />
     <ClInclude Include="..\Global.h" />
     <ClInclude Include="..\Matrix.h" />
     <ClInclude Include="..\Normal.h" />

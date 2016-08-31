@@ -118,7 +118,7 @@ Vector Vector::operator[](Vector & idx)
 {
 	Vector result(idx.n);
 	for (int i = 0;i < idx.n;i++)
-		result[i] = data[int(idx[i])];
+		result[i] = data[idx(i)];
 	return result;
 }
 
@@ -501,7 +501,7 @@ double Vector::mean() // mean
 double Vector::maximum()
 {
 	double val  = data[0];
-	for(int i=1;i<n;i++)
+	for(int i=0;i<n;i++)
 		if (val<data[i])
 			val = data[i];
 
@@ -511,7 +511,7 @@ double Vector::maximum()
 double Vector::minimum()
 {
 	double val = data[0];
-	for (int i = 1;i<n;i++)
+	for (int i = 0;i<n;i++)
 		if (val>data[i])
 			val = data[i];
 
@@ -549,6 +549,21 @@ istream& operator>>(istream& is, Vector& v)
 	is.read((char*)v.data, sizeof(double)*v.n);
 	v.type = 1;
 	return is;
+}
+
+
+void Vector::writeBin(string filename)
+{
+	ofstream likefile(filename, ios::out | ios::binary);
+	likefile << *this;
+	likefile.close();
+}
+
+void Vector::readBin(string filename)
+{
+	ifstream mfile(filename, ios::out | ios::binary);
+	mfile >> *this;
+	mfile.close();
 }
 
 

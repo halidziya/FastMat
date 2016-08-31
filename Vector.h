@@ -9,6 +9,7 @@
 #include "Buffer.h"
 #include <stdarg.h>
 #include <initializer_list>
+#include <fstream>
 #define EPS 1e-8 // Floating point equality
 
 class Matrix;
@@ -19,6 +20,8 @@ using namespace std;
 	TYPE 0 : Abstract	vector , just a pointer
 	TYPE 1 : Standart	vector , allocates deallocates memory automatically
 	TYPE 2 : Buffer		vector , calculations are used on top.
+
+	Default assumption for operations is all results are temporary
 */
 class Vector{
 public:
@@ -105,6 +108,8 @@ public:
 
 	friend ostream& operator<<(ostream& os, const Vector& v);
 	friend istream& operator>>(istream& is, Vector& v);
+	void writeBin(string filename);
+	void readBin(string filename);
 };
 
 

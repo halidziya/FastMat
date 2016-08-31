@@ -193,6 +193,15 @@ Matrix Matrix::chol()
 }
 
 
+Matrix Matrix::copy()
+{
+	Matrix res(r,m);
+	res.n = n;
+	memcpy(res.data, data, n * sizeof(double));
+	return res;
+}
+
+
 Matrix Matrix::qr()
 {
 	// Modified gram schimit

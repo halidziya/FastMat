@@ -50,6 +50,8 @@ public:
 	Matrix qr();
 	void print();
 
+	Matrix copy(); //Create real Matrix
+
 	friend ostream& operator<<(ostream& os, const Matrix& v);
 	friend istream& operator>>(istream& is, Matrix& v);
 };

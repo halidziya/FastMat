@@ -1,5 +1,6 @@
 #include "Normal.h"
 #include "util.h"
+#include <iostream>
 
 Normal::Normal(void):Normal(d)
 {
@@ -13,7 +14,7 @@ Normal::~Normal(void)
 
 Normal::Normal(int d) 
 {
-	if (d < 0) d = 0;
+	if ((d < 0) || (d > 1000)) d = 0;
 	mu = zeros(d);  
 	cholsigma = zeros(d,d);
 	this->d = d;
