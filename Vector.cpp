@@ -561,7 +561,7 @@ void Vector::writeBin(string filename)
 
 void Vector::readBin(string filename)
 {
-	ifstream mfile(filename, ios::out | ios::binary);
+	ifstream mfile(filename, ios::in | ios::binary);
 	mfile >> *this;
 	mfile.close();
 }

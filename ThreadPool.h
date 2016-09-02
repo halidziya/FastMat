@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <condition_variable>
+#include <atomic>
 #include "DebugUtils.h"
 #define thread_local  __declspec( thread )
 #define SETUP_ID() 		matbuffer.threadid = id;buffer.threadid = id;absbuffer.threadid = id;

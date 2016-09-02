@@ -19,8 +19,7 @@ public:
 	
 	void readMatrix(char* filename);
 	void writeMatrix(char* filename);
-	void readBin(char* filename);
-	void writeBin(char* filename);
+
 	
 
 	Vector operator[](int i);   // Get row
@@ -52,6 +51,9 @@ public:
 
 	Matrix copy(); //Create real Matrix
 
+
+	void readBin(string filename);
+	void writeBin(string filename);
 	friend ostream& operator<<(ostream& os, const Matrix& v);
 	friend istream& operator>>(istream& is, Matrix& v);
 };

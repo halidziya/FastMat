@@ -101,36 +101,18 @@ void Matrix::writeMatrix(char* filename)
 }
 
 
-void Matrix::readBin(char* filename)
+void Matrix::readBin(string filename)
 {
-	FILE* file;
-	fopen_s(&file,filename,"rb");
-	if (file==NULL)
-		printf("Could not open file... %s\n",filename);
-	else
-	{
-		printf("Reading %s...\n",filename);
-		fread(&r,sizeof(int),1,file);
-		fread(&m,sizeof(int),1,file);
-		n = r*m;
-		type = 1;
-		data  = (double*) malloc(sizeof(double)*n);
-		fread(data,sizeof(double),n,file);
-		fclose(file);
-	}
+	ifstream likefile(filename, ios::in| ios::binary);
+	likefile >> *this;
+	likefile.close();
 }
 
-void Matrix::writeBin(char* filename)
+void Matrix::writeBin(string filename)
 {
-	FILE* file;
-	fopen_s(&file,filename,"wb");
-	fwrite(&r,sizeof(int),1,file);
-	fwrite(&m,sizeof(int),1,file);
-
-	n = r*m;
-
-	fwrite(data,sizeof(double),n,file);
-	fclose(file);
+	ofstream likefile(filename, ios::out | ios::binary);
+	likefile << *this;
+	likefile.close();
 }
 
 
