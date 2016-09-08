@@ -58,14 +58,6 @@ void precomputeGammaLn(int size)
 		gl_pc[i] = gammaln(i/2.0);
 }
 
-Vector rand(int n, int max)
-{	
-	Vector v(n);
-	for (auto i = 0;i < n;i++)
-		v[i] = rand() % max;
-
-	return v;
-}
 
 int sample(Vector& v)
 {
