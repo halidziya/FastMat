@@ -4,8 +4,7 @@ uniform_real_distribution<double> distribution(0.0, 1.0);
 
 double urand()
 {
-	return rand() / (RAND_MAX + 1.0);
-	// return distribution(generator);
+	return distribution(generator);
 }
 
 
