@@ -42,10 +42,7 @@ double gammaln(double x)
 
 
 
-double urand()
-{
-	return rand() / ((double) (RAND_MAX+1.0));
-}
+
 
 
 
@@ -69,16 +66,6 @@ Vector rand(int n, int max)
 
 	return v;
 }
-
-Vector rand(int n)
-{
-	Vector rv(n);
-	for (auto i = 0;i < n;i++)
-		rv[i] = urand();
-
-	return rv;
-}
-
 
 int sample(Vector& v)
 {
