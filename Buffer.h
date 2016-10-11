@@ -1,6 +1,7 @@
 #pragma once
 #define thread_specific __declspec( thread )
 #include <vector>
+#include <mkl.h>
 using namespace std;
 
 // Altough optimization methods of C++ avoids unnecessary copies it is still not sufficient for temprorary objects
@@ -28,7 +29,7 @@ public:
 			data[j].type = real;
 
 			if (real == 0 && d>0)  // Altough it is not a good idea to first allocate then deallocate here , I don't want to change interface of constructors. 
-				free(data[j].data);
+				mkl_free(data[j].data);
 		}
 	}
 

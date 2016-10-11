@@ -20,7 +20,7 @@ void Matrix::resize(int x, int y)
 	n = x*y;
 	if ((type && n > 0) || (type == 0 && n > 0)) // Buffer or real vector
 	{
-		data = (double*)realloc(data, sizeof(double)*n);
+		data = (double*)mkl_realloc(data, sizeof(double)*n);
 		if (type == 0) //Changes if it is resized. 
 			type = 1;
 	}
@@ -77,7 +77,7 @@ void Matrix::readMatrix(char* filename)
 	{
 		printf("Reading %s...\n",filename);
 		file >> r >> m;
-		data = (double*) malloc(sizeof(double)*r*m);
+		data = (double*) mkl_malloc(sizeof(double)*r*m,64);
 		type = 1;
 		for(i=0;i<r;i++)
 			for(j=0;j<m;j++)
@@ -308,28 +308,33 @@ Matrix Matrix::operator*(const Matrix& mat)
 	int i;
 	Matrix& mati = matbuffer.get();
 	double res = 0;
+	// Transposed first matrix, this may not be consistent in this version of the library would be refined later
+	cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
+		this->r,mati.m,this->m, 1.0, this->data,this->m,mat.data, mati.m, 0.0, mati.data, mati.m);
 
-	for (i = 0; i < r; i++)
-		for (auto j = 0; j < m; j++) {
-			res = 0;
-			for (auto k = 0; k < m; k++)
-				res += mat.data[i*m + k] * data[k*m + j];
-			mati.data[i*m + j] = res;
-		}
+	//for (i = 0; i < r; i++)
+	//	for (auto j = 0; j < m; j++) {
+	//		res = 0;
+	//		for (auto k = 0; k < m; k++)
+	//			res += mat.data[i*m + k] * data[k*m + j];
+	//		mati.data[i*m + j] = res;
+	//	}
 	return matbuffer.next();
 }
 
 Vector Matrix::operator*(const Vector& v)
 {
 	Vector& v2 = buffer.get();
-	double res = 0;
-
-	for (auto j = 0; j < m; j++) {
-		res = 0;
-		for (auto k = 0; k < m; k++)
-			res += v.data[k] * data[k*m + j];
-		v2.data[j] = res;
-	}
+	// Transposed first matrix, this may not be consistent in this version of the library would be refined later
+	cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans,
+		this->r,1, this->m, 1.0, this->data, this->m, v.data,1, 0.0, v2.data, 1);
+	//double res = 0;
+	//for (auto j = 0; j < m; j++) {
+	//	res = 0;
+	//	for (auto k = 0; k < m; k++)
+	//		res += v.data[k] * data[k*m + j];
+	//	v2.data[j] = res;
+	//}
 	return buffer.next();
 }
 
@@ -349,8 +354,10 @@ Matrix Matrix::operator+(Matrix& mat)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
-	for(i=0;i<n;i++)
-		mati.data[i] = data[i]+mat.data[i];
+	cblas_dcopy(this->n, this->data, 1, mati.data, 1);
+	cblas_daxpy(mati.n, 1.0, mat.data, 1, mati.data, 1);
+	//for(i=0;i<n;i++)
+	//	mati.data[i] = data[i]+mat.data[i];
 	return matbuffer.next();
 }
 
@@ -358,8 +365,10 @@ Matrix Matrix::operator-(Matrix& mat)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
-	for(i=0;i<n;i++)
-		mati.data[i] = data[i]-mat.data[i];
+	cblas_dcopy(this->n, this->data, 1, mati.data, 1);
+	cblas_daxpy(mati.n, -1.0, mat.data, 1, mati.data, 1);
+	//for(i=0;i<n;i++)
+	//	mati.data[i] = data[i]-mat.data[i];
 	return matbuffer.next();
 }
 

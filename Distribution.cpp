@@ -7,6 +7,15 @@ double urand()
 	return distribution(generator);
 }
 
+Vector urand(int n)
+{
+	Vector v(n);
+	for (auto i = 0; i < n; i++)
+		v[i] = urand();
+
+	return v;
+}
+
 Vector rand(int n, int max)
 {
 	Vector v(n);

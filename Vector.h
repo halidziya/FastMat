@@ -10,6 +10,7 @@
 #include <stdarg.h>
 #include <initializer_list>
 #include <fstream>
+#include <mkl.h>
 #define EPS 1e-8 // Floating point equality
 
 class Matrix;
@@ -46,7 +47,7 @@ public:
 	Vector unique();	// Returns unique values 
 
 
-	inline double& operator[](const int i);
+	double& operator[](const int i);
 
 	// Sub vector based on indices, it does not allow assignment, it creates a new vector
 	Vector operator[](Vector& idx); 

@@ -36,16 +36,20 @@ double Normal::likelihood(Vector& x)
 	//Performance critical function
 	//Vector& v = (x - mu) / cholsigma; // Copy constructor
 	double dist = 0,disti=0;
-	Vector dd = x - mu;
+	Vector dd = absbuffer.get();
+	dd <<= x - mu;
 	int i, j;
-	for (i = 0; i < d; i++) {
-		disti = dd.data[i] / cholsigma.data[i*d + i];
-		for (j = d - 1; j>i; j--)								 // Subtract  , Triangular matrix , filled upto j
-		{
-			dd.data[j] -= cholsigma.data[j*d + i] * disti;
-		}
-		dist += disti*disti;
-	}
+	cblas_dtrsv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, cholsigma.r, cholsigma.data, cholsigma.r, dd.data, 1);
+	dist = cblas_dnrm2(dd.n, dd.data, 1);
+	dist = dist*dist;
+	//for (i = 0; i < d; i++) {
+	//	disti = dd.data[i] / cholsigma.data[i*d + i];
+	//	for (j = d - 1; j>i; j--)								 // Subtract  , Triangular matrix , filled upto j
+	//	{
+	//		dd.data[j] -= cholsigma.data[j*d + i] * disti;
+	//	}
+	//	dist += disti*disti;
+	//}
 	//double distsq = v*v;
 	return   normalizer - sumlogdiag -0.5*dist; //- 0.5*distsq
 	return 0;

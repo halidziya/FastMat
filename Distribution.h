@@ -14,7 +14,7 @@ public:
 	virtual T rnd()=0;
 };
 
-
+Vector urand(int n);
 Vector rand(int n, int max);
 Vector rand(int n);
 double urand();
