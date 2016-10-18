@@ -58,6 +58,17 @@ void precomputeGammaLn(int size)
 		gl_pc[i] = gammaln(i/2.0);
 }
 
+double gammalnd(int x,int d) // Actually works on x/2 
+{
+	double res = 0;
+	for (auto i = 0; i < d; i++)
+	{
+		res += gl_pc[x - i];
+	}
+	return (log(M_PI)*d*(d - 1) / 4) + res;
+}
+
+
 
 int sample(Vector& v)
 {

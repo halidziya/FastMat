@@ -66,6 +66,9 @@
     <ClCompile Include="..\Vector.cpp">
       <Filter>Source Files\Matrix</Filter>
     </ClCompile>
+    <ClCompile Include="..\Wishart.cpp">
+      <Filter>Source Files\Distributions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DebugUtils.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\FastMat.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Wishart.h">
+      <Filter>Header Files\Distributions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

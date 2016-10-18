@@ -12,7 +12,7 @@
 
 
 double gammaln(double x);
-
+double gammalnd(int x, int d);
 double harmean(double x,double y);
 boolean checkVectors(Vector& v1, Vector& v2);
 

@@ -3,5 +3,7 @@
 #include "util.h"
 #include "ThreadPool.h"
 #include "Normal.h"
+#include "Stut.h"
 #include "Dirichlet.h"
 #include "IWishart.h"
+#include "Wishart.h"
