@@ -6,7 +6,6 @@ using namespace std;
 
 // Altough optimization methods of C++ avoids unnecessary copies it is still not sufficient for temprorary objects
 // This buffer creates a memory space for those calculations. I used templates to be generalizable. 
-
 template <class T>
 class Buffer
 {
@@ -29,7 +28,10 @@ public:
 			data[j].type = real;
 
 			if (real == 0 && d>0)  // Altough it is not a good idea to first allocate then deallocate here , I don't want to change interface of constructors. 
-				mkl_free(data[j].data);
+				if (CBLAS)
+					mkl_free(data[j].data);
+				else
+					free(data[j].data);
 		}
 	}
 

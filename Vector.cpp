@@ -13,13 +13,15 @@ void init_buffer(int nthreads,int d)
 	new (&matbuffer) MultiBuffer<Matrix>(nthreads,BUFF_SIZE,d,2);
 	new (&buffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,d,2);
 	new (&absbuffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,d,0); // Not a real buffer
-	mkl_set_num_threads(nthreads);
 }
 
 Vector::Vector(int size,int real):n(size)
 {
 	if (real && size > 0) // Buffer or real vector
-		data = (double*) mkl_malloc(sizeof(double)*size,64);
+		if (CBLAS)
+			data = (double*) mkl_malloc(sizeof(double)*size,64);
+		else
+			data = (double*)malloc(sizeof(double)*size);
 
 	if (size == 0)
 		type = 0; // Abstract
@@ -61,8 +63,11 @@ Vector::Vector():n(0){type=0;data=NULL;} // Not yet real
 
 Vector::~Vector()
 {
-	if (type==1)
-		mkl_free(data);
+	if (type == 1)
+		if (CBLAS)
+			mkl_free(data);
+		else
+			free(data);
 }
 
 double Vector::norm()
@@ -158,7 +163,10 @@ Vector::Vector(const Vector& v)
 		data = v.data;
 		break;
 	case 1: // Deep copy
-		data  = (double*) mkl_malloc(sizeof(double)*n,64);
+		if (CBLAS)
+			data  = (double*) mkl_malloc(sizeof(double)*n,64);
+		else
+			data = (double*) malloc(sizeof(double)*n);
 		memcpy(data,v.data,sizeof(double)*n);
 		break;
 	case 2: // Buffer is persistent keep a abstract vector to point
@@ -179,12 +187,18 @@ void Vector::operator=(const Vector& v)
 	case 2:
 		if (!data) // if size is same
 		{
-			data = (double*)mkl_malloc(sizeof(double)*v.n,64);
+			if (CBLAS)
+				data = (double*)mkl_malloc(sizeof(double)*v.n,64);
+			else
+				data = (double*)malloc(sizeof(double)*v.n);
 			if (type == 0)
 				type = 1;
 		}
 		else if (n!=v.n)
-			data = (double*) mkl_realloc(data,v.n*sizeof(double));
+			if (CBLAS)
+				data = (double*) mkl_realloc(data,v.n*sizeof(double));
+			else
+				data = (double*)malloc(sizeof(double)*v.n);
 		memcpy(data,v.data,sizeof(double)*v.n);
 		break;
 	}
@@ -266,7 +280,10 @@ Vector  Vector::copy()
 void Vector::resize(int size)
 {
 	n  = size;
-	data = (double*) mkl_realloc(data,sizeof(double)*size);
+	if (CBLAS)
+		data = (double*) mkl_realloc(data,sizeof(double)*size);
+	else
+		data = (double*)realloc(data, sizeof(double)*size);
 	type = 1;
 }
 
@@ -346,20 +363,31 @@ Vector Vector::operator*(double scalar)
 Vector Vector::operator-(Vector& v)
 {
 	Vector& r = buffer.get();
-	cblas_dcopy(this->n, this->data, 1, r.data, 1);
-	cblas_daxpy(v.n, -1.0,v.data, 1, r.data , 1);
-	//for(int i=0;i<n;i++)
-	//	r.data[i]= data[i] - v.data[i];
+	if (CBLAS)
+	{
+		cblas_dcopy(this->n, this->data, 1, r.data, 1);
+		cblas_daxpy(v.n, -1.0, v.data, 1, r.data, 1);
+	}
+	else {
+		for (int i = 0; i < n; i++)
+			r.data[i] = data[i] - v.data[i];
+	}
 	return buffer.next();
 }
 
 Vector Vector::operator+(Vector& v)
 {
 	Vector& r = buffer.get();
-	cblas_dcopy(this->n, this->data, 1, r.data, 1);
-	cblas_daxpy(v.n, 1.0, v.data, 1, r.data, 1);
-	//for(int i=0;i<n;i++)
-	//	r.data[i]= data[i] + v.data[i];
+	if (CBLAS)
+	{
+		cblas_dcopy(this->n, this->data, 1, r.data, 1);
+		cblas_daxpy(v.n, 1.0, v.data, 1, r.data, 1);
+	}
+	else
+	{
+		for (int i = 0; i < n; i++)
+			r.data[i] = data[i] + v.data[i];
+	}
 	return buffer.next();
 }
 
@@ -436,11 +464,17 @@ Matrix Vector::operator>>(Vector& v) // Outer product
 	int i,j,vn;
 	Matrix& mat = matbuffer.get();
 	memset(mat.data, 0.0, mat.n*sizeof(double));
-	cblas_dger(CblasRowMajor, mat.r, mat.m, 1.0, this->data, 1, v.data, 1, mat.data, v.n);
-	//vn = v.n;
-	//for(j=0;j<n;j++)
-	//	for (i=0;i<vn;i++)
-	//		mat.data[j*vn+i] = v.data[i]*data[j];
+	if (CBLAS)
+	{
+		cblas_dger(CblasRowMajor, mat.r, mat.m, 1.0, this->data, 1, v.data, 1, mat.data, v.n);
+	}
+	else
+	{
+		vn = v.n;
+		for (j = 0; j < n; j++)
+			for (i = 0; i < vn; i++)
+				mat.data[j*vn + i] = v.data[i] * data[j];
+	}
 	return matbuffer.next();
 }
 

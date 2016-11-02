@@ -7,6 +7,9 @@
  int T_eta = 0;
  int nthd;
  double kappa=0;
- double gamma=0;
+ double kappa1 = 0;
+ double gamma=1;
+ double alpha = 1;
  Matrix Psi;
  Vector mu0;
+ int CBLAS = 1;

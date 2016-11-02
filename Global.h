@@ -9,5 +9,6 @@ extern  double kappa;
 extern  double gamma;
 extern  Matrix Psi;
 extern  Vector mu0;
-
-
+extern  int CBLAS;
+extern double kappa1;
+extern double alpha;

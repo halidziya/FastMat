@@ -1,6 +1,6 @@
 #include "Stut.h"
 #include <math.h>
-
+#include <iostream>
 Stut::Stut(Vector mean,Matrix cov,int dof)
 {
 	
@@ -23,7 +23,6 @@ Stut::Stut()
 {
 	coef1 = 0; 
 	eta = 0;
-	d= 0;
 	normalizer = 0;
 }
 
@@ -43,9 +42,22 @@ Stut::~Stut(void)
 
 double Stut::likelihood(Vector& x)
 {
-	Vector v =  (x  - mu)/cholsigma; // Copy constructor
-	double distsq = v*v;
-	return normalizer - coef1*log(1+distsq/eta);
+	int i, j;
+	double dist = 0, disti = 0;
+	Vector dd = x - mu;
+	for (i = 0; i < d; i++) {
+		disti = dd.data[i] / cholsigma.data[i*d + i];
+		for (j = d - 1; j > i; j--)								 // Subtract  , Triangular matrix , filled upto j
+		{
+			dd.data[j] -= cholsigma.data[j*d + i] * disti;
+		}
+		dist += disti*disti;
+	}
+	//Vector v =  (x  - mu)/cholsigma; // Copy constructor
+	//double distsq = v*v;
+	//if (dist != distsq)
+	//	cout << distsq << " :: " << dist << endl;
+	return normalizer - coef1*log(1 + dist / eta);
 }
 
 Vector Stut::likelihood(Matrix& mat)

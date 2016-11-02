@@ -8,7 +8,6 @@ class Normal : public Distribution<Vector>
 public:
 	Vector mu;
 	Matrix cholsigma;
-	int d;
 	double normalizer;
 	Normal(void);
 	Normal(int d); // dimensions

@@ -14,10 +14,10 @@ Normal::~Normal(void)
 
 Normal::Normal(int d) 
 {
-	if ((d < 0) || (d > 1000)) d = 0;
+	if ((d < 0) || (d > 1000)) 
+		d = 0;
 	mu = zeros(d);  
 	cholsigma = zeros(d,d);
-	this->d = d;
 	normalizer = -(d * 0.5)*log(2*M_PI);
 	sumlogdiag = 0;
 }
@@ -27,7 +27,6 @@ Normal::Normal(Vector& mu, Matrix& sigma)
 	this->mu = mu;
 	cholsigma = sigma.chol();
 	sumlogdiag = cholsigma.sumlogdiag();
-	this->d = sigma.m;
 	normalizer = -(d * 0.5)*log(2 * M_PI);
 }
 
@@ -39,18 +38,23 @@ double Normal::likelihood(Vector& x)
 	Vector dd = absbuffer.get();
 	dd <<= x - mu;
 	int i, j;
-	cblas_dtrsv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, cholsigma.r, cholsigma.data, cholsigma.r, dd.data, 1);
-	dist = cblas_dnrm2(dd.n, dd.data, 1);
-	dist = dist*dist;
-	//for (i = 0; i < d; i++) {
-	//	disti = dd.data[i] / cholsigma.data[i*d + i];
-	//	for (j = d - 1; j>i; j--)								 // Subtract  , Triangular matrix , filled upto j
-	//	{
-	//		dd.data[j] -= cholsigma.data[j*d + i] * disti;
-	//	}
-	//	dist += disti*disti;
-	//}
-	//double distsq = v*v;
+	if (CBLAS) {
+		cblas_dtrsv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, cholsigma.r, cholsigma.data, cholsigma.r, dd.data, 1);
+		dist = cblas_dnrm2(dd.n, dd.data, 1);
+		dist = dist*dist;
+	}
+	else
+	{
+		for (i = 0; i < d; i++) {
+			disti = dd.data[i] / cholsigma.data[i*d + i];
+			for (j = d - 1; j>i; j--)								 // Subtract  , Triangular matrix , filled upto j
+			{
+				dd.data[j] -= cholsigma.data[j*d + i] * disti;
+			}
+			dist += disti*disti;
+		}
+		//distq = v*v;
+	}
 	return   normalizer - sumlogdiag -0.5*dist; //- 0.5*distsq
 	return 0;
 }
