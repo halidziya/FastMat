@@ -132,3 +132,14 @@ boolean checkVectors(Vector& v1, Vector& v2)
 	}
 	return iscopy;
 }
+
+
+bool fexists(const char *filename)
+{
+		if (filename == NULL) return 0;
+		ifstream f(filename);
+		bool a = f.is_open();
+		if (a)
+			f.close();
+		return a;
+}

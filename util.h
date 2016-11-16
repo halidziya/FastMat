@@ -22,3 +22,4 @@ int sampleFromLog(Vector& v);
 int sample(Vector& v);
 vector<int> trange(int max, int nparts, int id);
 
+bool fexists(const char *filename);

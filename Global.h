@@ -1,5 +1,6 @@
 #pragma once
-#include "Matrix.h"
+class Matrix;
+class Vector;
 extern  int d; // dimensions
 extern  int m;
 extern  int n;

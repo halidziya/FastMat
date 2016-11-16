@@ -44,7 +44,9 @@ double Stut::likelihood(Vector& x)
 {
 	int i, j;
 	double dist = 0, disti = 0;
-	Vector dd = x - mu;
+	Vector& dd = buffer.get();
+	dd = x;
+	dd -= mu; // Faster performance 
 	for (i = 0; i < d; i++) {
 		disti = dd.data[i] / cholsigma.data[i*d + i];
 		for (j = d - 1; j > i; j--)								 // Subtract  , Triangular matrix , filled upto j

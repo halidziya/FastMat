@@ -1,5 +1,5 @@
 #include "Global.h"
-
+#include "Matrix.h"
 
  int d=0; // dimensions
  int m=0;
@@ -12,4 +12,4 @@
  double alpha = 1;
  Matrix Psi;
  Vector mu0;
- int CBLAS = 1;
+ int CBLAS = 0;

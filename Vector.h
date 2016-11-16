@@ -12,7 +12,7 @@
 #include <fstream>
 #include <mkl.h>
 #define EPS 1e-8 // Floating point equality
-class Matrix;
+#include "Global.h"
 using namespace std;
 
 
