@@ -19,7 +19,7 @@ double Wishart::likelihood(Matrix& s)
 Matrix& Wishart::rnd()
 {
 	// Not yet implemented
-	return eye(1);
+	return NULLMAT;
 }
 
 Wishart::~Wishart()
