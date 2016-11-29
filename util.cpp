@@ -13,10 +13,10 @@
 #define isnan _isnan
 #endif
 
-double gammaln(double x)
+double gamln(double x)
 {
   #define M_lnSqrt2PI 0.91893853320467274178
-  static double gamma_series[] = {
+  static double gam_series[] = {
     76.18009172947146,
     -86.50532032941677,
     24.01409824083091,
@@ -34,7 +34,7 @@ double gammaln(double x)
   x1 = x + 5.5;
   series = 1.000000000190015;
   for(i = 0; i < 6; i++) {
-    series += gamma_series[i] / denom;
+    series += gam_series[i] / denom;
     denom += 1.0;
   }
   return( M_lnSqrt2PI + (x+0.5)*log(x1) - x1 + log(series/x) );
@@ -49,16 +49,16 @@ double gammaln(double x)
 
 Vector gl_pc;
 /* With 0.5 increments */
-// x/2 is actual gammaln parameter
-void precomputeGammaLn(int size) 
+// x/2 is actual gamln parameter
+void precomputegamLn(int size) 
 {
 	int i;
 	new (&gl_pc) Vector(size);
 	for (i=0;i<gl_pc.n;i++)
-		gl_pc[i] = gammaln(i/2.0);
+		gl_pc[i] = gamln(i/2.0);
 }
 
-double gammalnd(int x,int d) // Actually works on x/2 
+double gamlnd(int x,int d) // Actually works on x/2 
 {
 	double res = 0;
 	for (auto i = 0; i < d; i++)

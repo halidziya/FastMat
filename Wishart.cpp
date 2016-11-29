@@ -7,12 +7,12 @@ Wishart::Wishart(Matrix& sigma,int df)
 	Vinv = sigma.inverse();
 	vcholsumlogdiag =  sigma.chol().sumlogdiag();
 	this->df = df;
-	gammad = gammalnd(df, d);
+	gamd = gamlnd(df, d);
 }
 
 double Wishart::likelihood(Matrix& s)
 {
-	return (df - d - 1)* s.chol().sumlogdiag() -0.5 * (Vinv*s).diag().sum() - log(df*d/2)  + log(2) - df * vcholsumlogdiag - gammad;
+	return (df - d - 1)* s.chol().sumlogdiag() -0.5 * (Vinv*s).diag().sum() - log(df*d/2)  + log(2) - df * vcholsumlogdiag - gamd;
 }
 
 

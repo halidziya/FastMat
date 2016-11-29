@@ -9,7 +9,7 @@ public:
 	Wishart(Matrix& sigma, int df);
 	int df;
 	double vcholsumlogdiag;
-	double gammad;
+	double gamd;
 	Matrix Vinv;
 	// Calculate likelihood of the scatter matrix
 	double likelihood(Matrix& s);

@@ -11,13 +11,13 @@
 #endif
 
 
-double gammaln(double x);
-double gammalnd(int x, int d);
+double gamln(double x);
+double gamlnd(int x, int d);
 double harmean(double x,double y);
 bool checkVectors(Vector& v1, Vector& v2);
 
 extern Vector gl_pc;
-void precomputeGammaLn(int size);
+void precomputegamLn(int size);
 int sampleFromLog(Vector& v);
 int sample(Vector& v);
 vector<int> trange(int max, int nparts, int id);
