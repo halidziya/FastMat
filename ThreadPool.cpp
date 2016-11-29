@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
 
-thread_local int thread_id;
+int thread_local thread_id;
 
 ThreadPool::ThreadPool(int numthreads)
 {

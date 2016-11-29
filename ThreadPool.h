@@ -17,7 +17,7 @@ public:
 	virtual void run(int id)=0;
 };
 
-thread_local extern int thread_id;
+extern thread_local  int thread_id;
 
 class ThreadPool
 {
