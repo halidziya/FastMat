@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Windows.h>
 
 static int tic=0,toc=0,debugOn=0;
 #define step() if(debugOn)    {  toc=tic;tic=GetTickCount(); toc==0?0:printf("Elapsed: %d\n",tic-toc); } 

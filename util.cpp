@@ -111,7 +111,7 @@ double harmean(double x,double y)
 }
 
 
-boolean checkVectors(Vector& v1, Vector& v2)
+bool checkVectors(Vector& v1, Vector& v2)
 {
 	int iscopy = 1;
 	if (v1.data == v2.data)
