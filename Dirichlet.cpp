@@ -8,7 +8,7 @@ double Dirichlet::likelihood(Vector& data)
 	return 0.0;
 }
 
-Vector Dirichlet::rnd()
+Vector& Dirichlet::rnd()
 {
 	Vector& v = lastsample;
 	for (auto i = 0; i < d; i++)

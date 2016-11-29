@@ -16,7 +16,7 @@ double Wishart::likelihood(Matrix& s)
 }
 
 
-Matrix Wishart::rnd()
+Matrix& Wishart::rnd()
 {
 	// Not yet implemented
 	return eye(1);

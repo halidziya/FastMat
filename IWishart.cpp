@@ -6,7 +6,7 @@ IWishart::IWishart(Matrix& psi,int df):df(df)
 	this->psi = psi;
 }
 
-Matrix IWishart::rnd()
+Matrix& IWishart::rnd()
 {
 
 	chi_squared_distribution<double> chi(df);

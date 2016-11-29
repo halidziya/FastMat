@@ -14,7 +14,7 @@ public:
 	// Calculate likelihood of the scatter matrix
 	double likelihood(Matrix& s);
 	//virtual double loglikelihood() = 0;
-	Matrix rnd();
+	Matrix& rnd();
 
 	~Wishart();
 };

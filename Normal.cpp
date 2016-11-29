@@ -30,6 +30,14 @@ Normal::Normal(Vector& mu, Matrix& sigma)
 	normalizer = -(d * 0.5)*log(2 * M_PI);
 }
 
+Normal::Normal(Vector&& mu, Matrix&& sigma)
+{
+	this->mu = mu;
+	cholsigma = sigma.chol();
+	sumlogdiag = cholsigma.sumlogdiag();
+	normalizer = -(d * 0.5)*log(2 * M_PI);
+}
+
 double Normal::likelihood(Vector& x)
 {
 	//Performance critical function
@@ -59,7 +67,7 @@ double Normal::likelihood(Vector& x)
 }
 
 
-Vector Normal::rnd()
+Vector& Normal::rnd()
 {
 
 		normal_distribution<double> normal(0, 1);

@@ -11,7 +11,7 @@ class Distribution
 public:
 	virtual double likelihood(T& data) = 0;
 	//virtual double loglikelihood() = 0;
-	virtual T rnd()=0;
+	virtual T& rnd()=0;
 };
 
 Vector urand(int n);

@@ -12,6 +12,6 @@ public:
 	IWishart();
 	~IWishart(void);
 	double likelihood(Matrix& mat);
-	Matrix rnd();
+	Matrix& rnd();
 };
 

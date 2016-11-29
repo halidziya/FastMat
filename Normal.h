@@ -12,9 +12,10 @@ public:
 	Normal(void);
 	Normal(int d); // dimensions
 	Normal(Vector& mu, Matrix& sigma);
+	Normal(Vector&& mu, Matrix&& sigma);
 	double sumlogdiag;
 	~Normal(void);
 	double likelihood(Vector& x);
-	Vector rnd();
+	Vector& rnd();
 };
 

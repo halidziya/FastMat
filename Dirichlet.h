@@ -11,7 +11,7 @@ public:
 	int d;
 	Vector alpha;
 	double likelihood(Vector& alpha);
-	Vector rnd();
+	Vector& rnd();
 	Dirichlet(Vector& alpha);
 	Dirichlet(Vector&& alpha);
 	Dirichlet();
