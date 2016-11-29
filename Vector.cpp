@@ -5,10 +5,11 @@
 MultiBuffer<Vector> buffer;
 MultiBuffer<Vector> absbuffer(1,BUFF_SIZE,0,0);
 MultiBuffer<Matrix> matbuffer;
-
+Matrix NULLMAT;
 
 void init_buffer(int nthreads,int d)
 {
+	NULLMAT = zeros(0,0);
 	nthreads = nthreads + 1; // And one master thread
 	new (&matbuffer) MultiBuffer<Matrix>(nthreads,BUFF_SIZE,d,2);
 	new (&buffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,d,2);
@@ -18,9 +19,9 @@ void init_buffer(int nthreads,int d)
 Vector::Vector(int size,int real):n(size)
 {
 	if (real && size > 0) // Buffer or real vector
-		if (CBLAS)
-			data = (double*) mkl_malloc(sizeof(double)*size,64);
-		else
+		//if (CBLAS)
+		//	data = (double*) mkl_malloc(sizeof(double)*size,64);
+		//else
 			data = (double*)malloc(sizeof(double)*size);
 
 	if (size == 0)
@@ -64,9 +65,9 @@ Vector::Vector():n(0){type=0;data=NULL;} // Not yet real
 Vector::~Vector()
 {
 	if (type == 1)
-		if (CBLAS)
-			mkl_free(data);
-		else
+		//if (CBLAS)
+		//	mkl_free(data);
+		//else
 			free(data);
 }
 
@@ -163,9 +164,9 @@ Vector::Vector(const Vector& v)
 		data = v.data;
 		break;
 	case 1: // Deep copy
-		if (CBLAS)
-			data  = (double*) mkl_malloc(sizeof(double)*n,64);
-		else
+		//if (CBLAS)
+		//	data  = (double*) mkl_malloc(sizeof(double)*n,64);
+		//else
 			data = (double*) malloc(sizeof(double)*n);
 		memcpy(data,v.data,sizeof(double)*n);
 		break;
@@ -187,17 +188,17 @@ void Vector::operator=(const Vector& v)
 	case 2:
 		if (!data) // if size is same
 		{
-			if (CBLAS)
-				data = (double*)mkl_malloc(sizeof(double)*v.n,64);
-			else
+			//if (CBLAS)
+			//	data = (double*)mkl_malloc(sizeof(double)*v.n,64);
+			//else
 				data = (double*)malloc(sizeof(double)*v.n);
 			if (type == 0)
 				type = 1;
 		}
 		else if (n!=v.n)
-			if (CBLAS)
-				data = (double*) mkl_realloc(data,v.n*sizeof(double));
-			else
+			//if (CBLAS)
+			//	data = (double*) mkl_realloc(data,v.n*sizeof(double));
+			//else
 				data = (double*)malloc(sizeof(double)*v.n);
 		memcpy(data,v.data,sizeof(double)*v.n);
 		break;
@@ -280,16 +281,16 @@ Vector  Vector::copy()
 void Vector::resize(int size)
 {
 	n  = size;
-	if (CBLAS)
-		data = (double*) mkl_realloc(data,sizeof(double)*size);
-	else
+	//if (CBLAS)
+	//	data = (double*) mkl_realloc(data,sizeof(double)*size);
+	//else
 		data = (double*)realloc(data, sizeof(double)*size);
 	type = 1;
 }
 
 /* Divide cholesky version */
 
-Vector Vector::operator/(Matrix& mat) // Be careful it modifies the original data
+Vector& Vector::operator/(Matrix& mat) // Be careful it modifies the original data
 {
 	int i,j;
 	Vector& v = buffer.get();
@@ -314,7 +315,7 @@ Vector Vector::operator/(Matrix& mat) // Be careful it modifies the original dat
 	return buffer.next();
 }
 
-Vector Vector::operator/(Vector& vec) 
+Vector& Vector::operator/(Vector& vec)
 {
 	Vector v = buffer.get();
 	for (auto i = 0; i < n; i++)
@@ -352,7 +353,7 @@ Vector Vector::unique()
 	return res;
 }
 
-Vector Vector::operator*(double scalar)
+Vector& Vector::operator*(double scalar)
 {
 	Vector& r = buffer.get();
 	for(int i=0;i<n;i++)
@@ -360,39 +361,39 @@ Vector Vector::operator*(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator-(Vector& v)
+Vector& Vector::operator-(Vector& v)
 {
 	Vector& r = buffer.get();
-	if (CBLAS)
+	/*if (CBLAS)
 	{
 		cblas_dcopy(this->n, this->data, 1, r.data, 1);
 		cblas_daxpy(v.n, -1.0, v.data, 1, r.data, 1);
 	}
-	else {
+	else {*/
 		for (int i = 0; i < n; i++)
 			r.data[i] = data[i] - v.data[i];
-	}
+	//}
 	return buffer.next();
 }
 
-Vector Vector::operator+(Vector& v)
+Vector& Vector::operator+(Vector& v)
 {
 	Vector& r = buffer.get();
-	if (CBLAS)
+	/*if (CBLAS)
 	{
 		cblas_dcopy(this->n, this->data, 1, r.data, 1);
 		cblas_daxpy(v.n, 1.0, v.data, 1, r.data, 1);
 	}
 	else
-	{
+	{*/
 		for (int i = 0; i < n; i++)
 			r.data[i] = data[i] + v.data[i];
-	}
+	//}
 	return buffer.next();
 }
 
 
-Vector Vector::operator/(double scalar)
+Vector& Vector::operator/(double scalar)
 {
 	Vector& r = buffer.get();
 	double divval = 1.0/scalar;
@@ -401,7 +402,7 @@ Vector Vector::operator/(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator<(double scalar)
+Vector& Vector::operator<(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -409,7 +410,7 @@ Vector Vector::operator<(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator>(double scalar)
+Vector& Vector::operator>(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -417,7 +418,7 @@ Vector Vector::operator>(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator<=(double scalar)
+Vector& Vector::operator<=(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -425,7 +426,7 @@ Vector Vector::operator<=(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator>=(double scalar)
+Vector& Vector::operator>=(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -434,7 +435,7 @@ Vector Vector::operator>=(double scalar)
 }
 
 
-Vector Vector::operator+(double scalar)
+Vector& Vector::operator+(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -442,7 +443,7 @@ Vector Vector::operator+(double scalar)
 	return buffer.next();
 }
 
-Vector Vector::operator-(double scalar)
+Vector& Vector::operator-(double scalar)
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -451,7 +452,7 @@ Vector Vector::operator-(double scalar)
 }
 
 
-Vector Vector::exp()
+Vector& Vector::exp()
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -459,31 +460,31 @@ Vector Vector::exp()
 	return buffer.next();
 }
 
-Matrix Vector::operator>>(Vector& v) // Outer product
+Matrix& Vector::operator>>(Vector& v) // Outer product
 {
 	int i,j,vn;
 	Matrix& mat = matbuffer.get();
 	memset(mat.data, 0.0, mat.n*sizeof(double));
-	if (CBLAS)
+	/*if (CBLAS)
 	{
 		cblas_dger(CblasRowMajor, mat.r, mat.m, 1.0, this->data, 1, v.data, 1, mat.data, v.n);
 	}
 	else
-	{
+	{*/
 		vn = v.n;
 		for (j = 0; j < n; j++)
 			for (i = 0; i < vn; i++)
 				mat.data[j*vn + i] = v.data[i] * data[j];
-	}
+	//}
 	return matbuffer.next();
 }
 
-Matrix Vector::outer(Vector& v) {
+Matrix& Vector::outer(Vector& v) {
 	return operator>>(v);
 }
 
 
-Vector Vector::operator<<(Vector& v) // Elementwise product
+Vector& Vector::operator<<(Vector& v) // Elementwise product
 {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i<v.n; i++)
@@ -493,7 +494,7 @@ Vector Vector::operator<<(Vector& v) // Elementwise product
 
 
 
-Vector Vector::apply(double(*f)(double)) {
+Vector& Vector::apply(double(*f)(double)) {
 	Vector& vec = buffer.get();
 	for (auto i = 0; i < n; i++)
 		vec.data[i] = f(data[i]); // Use global namespace function
@@ -501,12 +502,12 @@ Vector Vector::apply(double(*f)(double)) {
 }
 
 
-Vector Vector::log() // Elementwise log
+Vector& Vector::log() // Elementwise log
 {
 	return apply(::log);
 }
 
-Vector Vector::sqrt()
+Vector& Vector::sqrt()
 {
 	return apply(::sqrt);
 }
@@ -515,7 +516,7 @@ double sqr(double val){
 	return val*val;
 }
 
-Vector Vector::sqr() 
+Vector& Vector::sqr()
 {
 	return apply(::sqr);
 }

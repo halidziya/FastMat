@@ -20,9 +20,9 @@ void Matrix::resize(int x, int y)
 	n = x*y;
 	if ((type && n > 0) || (type == 0 && n > 0)) // Buffer or real vector
 	{
-		if (CBLAS)
-			data = (double*)mkl_realloc(data, sizeof(double)*n);
-		else
+		//if (CBLAS)
+		//	data = (double*)mkl_realloc(data, sizeof(double)*n);
+		//else
 			data = (double*)realloc(data, sizeof(double)*n);
 		if (type == 0) //Changes if it is resized. 
 			type = 1;
@@ -80,9 +80,9 @@ void Matrix::readMatrix(char* filename)
 	{
 		printf("Reading %s...\n",filename);
 		file >> r >> m;
-		if (CBLAS)
-			data = (double*) mkl_malloc(sizeof(double)*r*m,64);
-		else
+		//if (CBLAS)
+		//	data = (double*) mkl_malloc(sizeof(double)*r*m,64);
+		//else
 			data = (double*)malloc(sizeof(double)*r*m);
 		type = 1;
 		for(i=0;i<r;i++)
@@ -123,12 +123,12 @@ void Matrix::writeBin(string filename)
 
 
 /* Get Row */
-Vector Matrix::operator[](int i){ 
+Vector& Matrix::operator[](int i){
 	absbuffer.get().data = data + m*i;
 	return absbuffer.next();
 }
 
-Vector Matrix::operator()(int i) {
+Vector& Matrix::operator()(int i) {
 	absbuffer.get().data = data + m*i;
 	return absbuffer.next();
 }
@@ -151,7 +151,7 @@ double Matrix::sumlogdiag()
 
 
 /* Cholesky decomposition of square matrix */
-Matrix Matrix::chol()
+Matrix& Matrix::chol()
 {
 	double s = 0;
 	int i,j,k;
@@ -190,14 +190,14 @@ Matrix Matrix::copy()
 }
 
 
-Matrix Matrix::qr()
+Matrix& Matrix::qr()
 {
 	// Modified gram schimit
 	double s = 0;
 	int i, j;
 	Matrix& Q = matbuffer.next();
 	Matrix& R = matbuffer.next();
-	Matrix& v = this->transpose(); // Work on row  vectors
+	Matrix v = this->transpose(); // Work on row  vectors
 	Q.zero();
 	R.zero();
 	
@@ -221,7 +221,7 @@ Matrix Matrix::qr()
 }
 
 
-Vector Matrix::diag()
+Vector& Matrix::diag()
 {
 	Vector& vec = buffer.get();
 	int lowdim = r < m ? r : m;
@@ -230,7 +230,7 @@ Vector Matrix::diag()
 	return buffer.next();
 }
 
-Vector Matrix::mean()
+Vector& Matrix::mean()
 {
 	Vector& vec = buffer.get();
 	vec.zero();
@@ -241,7 +241,7 @@ Vector Matrix::mean()
 }
 
 
-Matrix Matrix::operator*(double scalar)
+Matrix& Matrix::operator*(double scalar)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
@@ -250,7 +250,7 @@ Matrix Matrix::operator*(double scalar)
 	return matbuffer.next();
 }
 
-Matrix Matrix::transpose()
+Matrix& Matrix::transpose()
 {
 	Matrix mati = matbuffer.get();
 	double res = 0;
@@ -263,7 +263,7 @@ Matrix Matrix::transpose()
 }
 
 
-Matrix Matrix::inverse()
+Matrix& Matrix::inverse()
 {
 	
 	//Gaussian Elemination
@@ -284,7 +284,7 @@ Matrix Matrix::inverse()
 	return matbuffer.next();
 }
 
-Matrix Matrix::scatter() // Calculate covariance of data matrix
+Matrix& Matrix::scatter() // Calculate covariance of data matrix
 {
 	Matrix meansc = matbuffer.next(); // Allocate this matrix first
 	Vector& v = this->mean();
@@ -303,24 +303,24 @@ Matrix Matrix::scatter() // Calculate covariance of data matrix
 	return matbuffer.next();
 }
 
-Matrix Matrix::cov()
+Matrix& Matrix::cov()
 {
 	return this->scatter() / (r - 1);
 }
 
 
-Matrix Matrix::operator*(const Matrix& mat)
+Matrix& Matrix::operator*(const Matrix& mat)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
 	double res = 0;
 	// Transposed first matrix, this may not be consistent in this version of the library would be refined later
-	if (CBLAS) {
+	/*if (CBLAS) {
 		cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
 			this->r, mati.m, this->m, 1.0, this->data, this->m, mat.data, mati.m, 0.0, mati.data, mati.m);
 	}
 	else
-	{
+	{*/
 		for (i = 0; i < r; i++)
 			for (auto j = 0; j < m; j++) {
 				res = 0;
@@ -328,20 +328,20 @@ Matrix Matrix::operator*(const Matrix& mat)
 					res += mat.data[i*m + k] * data[k*m + j];
 				mati.data[i*m + j] = res;
 			}
-	}
+	//}
 	return matbuffer.next();
 }
 
-Vector Matrix::operator*(const Vector& v)
+Vector& Matrix::operator*(const Vector& v)
 {
 	Vector& v2 = buffer.get();
 	// Transposed first matrix, this may not be consistent in this version of the library would be refined later
-	if (CBLAS) {
+	/*if (CBLAS) {
 		cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans,
 			this->r, 1, this->m, 1.0, this->data, this->m, v.data, 1, 0.0, v2.data, 1);
 	}
 	else
-	{
+	{*/
 		double res = 0;
 		for (auto j = 0; j < m; j++) {
 			res = 0;
@@ -350,13 +350,13 @@ Vector Matrix::operator*(const Vector& v)
 			v2.data[j] = res;
 		}
 		
-	}
+	//}
 	return buffer.next();
 }
 
 
 
-Matrix Matrix::operator/(double scalar)
+Matrix& Matrix::operator/(double scalar)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
@@ -366,34 +366,34 @@ Matrix Matrix::operator/(double scalar)
 	return matbuffer.next();
 }
 
-Matrix Matrix::operator+(Matrix& mat)
+Matrix& Matrix::operator+(Matrix& mat)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
-	if (CBLAS) {
+	/*if (CBLAS) {
 		cblas_dcopy(this->n, this->data, 1, mati.data, 1);
 		cblas_daxpy(mati.n, 1.0, mat.data, 1, mati.data, 1);
 	}
-	else {
+	else {*/
 		for (i = 0; i < n; i++)
 			mati.data[i] = data[i] + mat.data[i];
-	}
+	//}
 	return matbuffer.next();
 }
 
-Matrix Matrix::operator-(Matrix& mat)
+Matrix& Matrix::operator-(Matrix& mat)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
-	if (CBLAS) {
+	/*if (CBLAS) {
 		cblas_dcopy(this->n, this->data, 1, mati.data, 1);
 		cblas_daxpy(mati.n, -1.0, mat.data, 1, mati.data, 1);
 	}
 	else
-	{
+	{*/
 		for (i = 0; i < n; i++)
 			mati.data[i] = data[i] - mat.data[i];
-	}
+	//}
 	return matbuffer.next();
 }
 
@@ -426,7 +426,7 @@ Matrix Matrix::submat(int r1, int r2, int c1, int c2)
 	int cols = c2 - c1;
 
 	if (rows < 0 || cols < 0)
-		return NULL;
+		return NULLMAT;
 
 	Matrix mat(rows, cols , 2); // Persistent memory use with caution
 	for (auto i = 0; i < rows && ((i+r1) < r); i++)

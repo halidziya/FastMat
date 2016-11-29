@@ -10,7 +10,7 @@
 #include <stdarg.h>
 #include <initializer_list>
 #include <fstream>
-#include <mkl.h>
+//#include <mkl.h>
 #define EPS 1e-8 // Floating point equality
 #include "Global.h"
 using namespace std;
@@ -43,20 +43,20 @@ public:
 	void fill(double d);
 	void resize(int size);
 	Vector copy();		// Returns real vector
-	Vector unique();	// Returns unique values 
+	Vector unique();	// Returns unique values
 
 
 	double& operator[](const int i);
 
 	// Sub vector based on indices, it does not allow assignment, it creates a new vector
-	Vector operator[](Vector& idx); 
+	Vector operator[](Vector& idx);
 
 	int		operator()(int i);	 // Return integer
 	double operator*(Vector& v); // Inner product
 	//Vector operator*(Matrix& m); //
-	Vector operator-(Vector& v); // Subtraction
-	Vector operator/(Matrix& mat); // Matrix division
-	Vector operator/(Vector& vec); // Element-wise division
+	Vector& operator-(Vector& v); // Subtraction
+	Vector& operator/(Matrix& mat); // Matrix division
+	Vector& operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
 	void operator<<=(const Vector& v); // Abstract Assignment
 
@@ -71,21 +71,21 @@ public:
 	void operator*=(const Vector& v); // Inplace addition works on arbitrary size
 
 	
-	Vector operator*(double scalar); // Scaling
-	Vector operator+(double scalar); // Add scalar to all elements
-	Vector operator-(double scalar); // Subtract scalar to all elements
-	Vector operator+(Vector& v);	// Summation
-	Vector operator/(double scalar); // Elementwise comparison
-	Vector operator<(double scalar); // Elementwise comparison
-	Vector operator>(double scalar);
-	Vector operator<=(double scalar); // Elementwise comparison
-	Vector operator>=(double scalar);
+	Vector& operator*(double scalar); // Scaling
+	Vector& operator+(double scalar); // Add scalar to all elements
+	Vector& operator-(double scalar); // Subtract scalar to all elements
+	Vector& operator+(Vector& v);	// Summation
+	Vector& operator/(double scalar); // Elementwise comparison
+	Vector& operator<(double scalar); // Elementwise comparison
+	Vector& operator>(double scalar);
+	Vector& operator<=(double scalar); // Elementwise comparison
+	Vector& operator>=(double scalar);
 
 
 	// Outer Product
-	Matrix operator>>(Vector& v);
+	Matrix& operator>>(Vector& v);
 	// Elementwise Product
-	Vector operator<<(Vector& v);	
+	Vector& operator<<(Vector& v);
 	
 	double maximum();
 	double minimum();
@@ -93,14 +93,14 @@ public:
 	double mean();
 
 	// Returns results to buffer, does not change actual vector
-	Vector log();					// Elementwise log
-	Vector sqrt();					// Elementwise sqrt
-	Vector sqr();					// Elementwise sqr
+	Vector& log();					// Elementwise log
+	Vector& sqrt();					// Elementwise sqrt
+	Vector& sqr();					// Elementwise sqr
 	double norm();					// Euclidian norm
-	Vector exp();					// Elementwise log
-	Vector apply(double(*f)(double));
+	Vector& exp();					// Elementwise log
+	Vector& apply(double(*f)(double));
 
-	Matrix outer(Vector& v);					// Outer product
+	Matrix& outer(Vector& v);					// Outer product
 	void   put(int idx, Vector& data); // Put,copy a vector to specific location
 	Vector append(Vector& v);
 	Vector append(double d);
@@ -118,6 +118,7 @@ public:
 extern MultiBuffer<Vector> buffer;
 extern MultiBuffer<Vector> absbuffer;
 extern MultiBuffer<Matrix> matbuffer;
+extern Matrix NULLMAT;
 
 void init_buffer(int nthreads,int d);
 Vector zeros(int d);

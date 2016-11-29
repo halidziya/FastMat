@@ -22,31 +22,31 @@ public:
 
 	
 
-	Vector operator[](int i);   // Get row
-	Vector operator()(int i);   // Get row
+	Vector& operator[](int i);   // Get row
+	Vector& operator()(int i);   // Get row
 	double& operator()(int i, int j);
-	Matrix operator*(double scalar);
-	Matrix operator*(const Matrix& m);
-	Vector operator*(const Vector& m);
+	Matrix&operator*(double scalar);
+	Matrix& operator*(const Matrix& m);
+	Vector& operator*(const Vector& m);
 	void   operator=(const Matrix& m);
-	Matrix operator+(Matrix& v);	// Summation
-	Matrix operator-(Matrix& v);	// Subtract
-	Matrix operator/(double scalar); // Scaling
+	Matrix& operator+(Matrix& v);	// Summation
+	Matrix& operator-(Matrix& v);	// Subtract
+	Matrix& operator/(double scalar); // Scaling
 	void operator<=(const Matrix& mat); //Point by Abstract Matrix
 	
 	void resize(int x,int y);
 	void zero();
 	void eye();
 	double sumlogdiag();
-	Vector mean();
-	Matrix chol();
-	Matrix transpose();
-	Matrix inverse();
-	Matrix scatter();
-	Matrix cov();
-	Vector diag();
+	Vector& mean();
+	Matrix& chol();
+	Matrix& transpose();
+	Matrix& inverse();
+	Matrix& scatter();
+	Matrix& cov();
+	Vector& diag();
 	Matrix submat(int r1, int r2, int c1, int c2);
-	Matrix qr();
+	Matrix& qr();
 	void print();
 
 	Matrix copy(); //Create real Matrix
