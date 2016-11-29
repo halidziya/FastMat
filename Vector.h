@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ostream>
 #include <istream>
+#include <cstring>
 #include "DebugUtils.h"
 #include <thread>
 #include "Buffer.h"
