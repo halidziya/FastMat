@@ -28,6 +28,13 @@ Dirichlet::Dirichlet(Vector & alpha)
 	lastsample = Vector(d);
 }
 
+Dirichlet::Dirichlet(Vector&& alpha)
+{
+	this->alpha = alpha;
+	d = alpha.n;
+	lastsample = Vector(d);
+}
+
 Dirichlet::Dirichlet()
 {
 	d = 0;

@@ -13,6 +13,7 @@ public:
 	double likelihood(Vector& alpha);
 	Vector rnd();
 	Dirichlet(Vector& alpha);
+	Dirichlet(Vector&& alpha);
 	Dirichlet();
 	~Dirichlet();
 private :
