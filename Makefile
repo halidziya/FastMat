@@ -15,16 +15,16 @@ CC_FLAGS  = -03
 TARGETS = $(FASTMAT)
 
 all: $(OBJ_FILES)
-    ar rcs $(FASTMAT) $(OBJ_FILES)
-    ranlib $(FASTMAT)
+	ar rcs $(FASTMAT) $(OBJ_FILES)
+	ranlib $(FASTMAT)
 	
 obj/%.o: src/%.cpp
-   $(CC) $(CC_FLAGS) -c -o $@ $<
+	$(CC) $(CC_FLAGS) -c -o $@ $<
    
 clean:
-    rm fastmat.o $(TARGETS) $(FASTMAT) $(OBJ_FILES)
+	rm fastmat.o $(TARGETS) $(FASTMAT) $(OBJ_FILES)
 
 depend:
-    makedepend -- $(CFLAGS) -- $(SRC) $(LIBSRC)
+	makedepend -- $(CFLAGS) -- $(SRC) $(LIBSRC)
 	
 	
