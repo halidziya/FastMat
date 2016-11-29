@@ -8,7 +8,7 @@
 #include <atomic>
 #include "DebugUtils.h"
 #define thread_local  __declspec( thread )
-#define SETUP_ID() 		matbuffer.threadid = id;buffer.threadid = id;absbuffer.threadid = id;
+#define SETUP_ID() 		threadid = id;
 
 using namespace std;
 

@@ -1,5 +1,6 @@
 #pragma once
-#define thread_specific __declspec( thread )
+//#define thread_specific __declspec( thread )
+//#define thread_local thread_local 
 #include <vector>
 //#include <mkl.h>
 using namespace std;
@@ -63,17 +64,17 @@ public:
 };
 
 
-
+extern thread_local int threadid;
 template <class T>
 class MultiBuffer
 {
 public:
-	thread_specific static int threadid;
+	
 	static int nthreads;
 	MultiBuffer(int nthreads,int buffersize,int dim,int real=2)
 	{
 		MultiBuffer::nthreads = nthreads;
-		MultiBuffer::threadid = 0; // Master Thread
+		threadid = 0; // Master Thread
 		data.reserve(nthreads);
 		for (int i=0;i<nthreads;i++)
 		{
@@ -108,7 +109,7 @@ public:
 	vector<Buffer<T>> data;
 };
 
-template <class T>
-int MultiBuffer<T>::threadid;
+//template <class T>
+//static int MultiBuffer<T>::threadid;
 template <class T>
 int MultiBuffer<T>::nthreads;
