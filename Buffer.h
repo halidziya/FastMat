@@ -106,7 +106,7 @@ public:
 	~MultiBuffer(void){
 			
 	}
-	vector<Buffer<T>> data;
+	vector<Buffer<T> > data;
 };
 
 //template <class T>

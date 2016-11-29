@@ -1,8 +1,19 @@
 cmake_minimum_required(VERSION 2.6)
 project(FastMat)
 
-set(CMAKE_CXX_STANDARD 11)
+macro(use_cxx11)
+    if (CMAKE_VERSION VERSION_LESS "3.1")
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            set (CMAKE_CXX_FLAGS "--std=gnu++11 ${CMAKE_CXX_FLAGS}")
+        endif ()
+    else ()
+        set (CMAKE_CXX_STANDARD 11)
+    endif ()
+endmacro(use_cxx11)
 
+
+set(CMAKE_CXX_STANDARD 11)
+use_cxx11()
 
 
 ADD_LIBRARY( FastMat STATIC
@@ -36,4 +47,4 @@ ADD_LIBRARY( FastMat STATIC
 
 
 TARGET_LINK_LIBRARIES( FastMat )
-
+target_compile_features(FastMat PRIVATE cxx_range_for)
