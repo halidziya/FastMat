@@ -7,7 +7,12 @@
 #include <condition_variable>
 #include <atomic>
 #include "DebugUtils.h"
-#define thread_local  __declspec( thread )
+
+#ifndef __thread 
+#define __thread  thread_local
+#endif
+
+
 #define SETUP_ID() 		threadid = id;
 
 using namespace std;
@@ -17,7 +22,7 @@ public:
 	virtual void run(int id)=0;
 };
 
-extern thread_local  int thread_id;
+extern __thread  int thread_id;
 
 class ThreadPool
 {
