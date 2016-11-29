@@ -47,4 +47,3 @@ ADD_LIBRARY( FastMat STATIC
 
 
 TARGET_LINK_LIBRARIES( FastMat )
-target_compile_features(FastMat PRIVATE cxx_range_for)
