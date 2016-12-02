@@ -177,6 +177,24 @@ Vector::Vector(const Vector& v)
 	}
 }
 
+Vector::Vector(vector<double> v) : Vector(v.size(), 1)
+{	
+	for (int i = 0; i < n; i++)
+		data[i] = v[i];
+}
+
+Vector::Vector(double * v, int n) : Vector(n, 1)
+{
+	for (int i = 0; i < n; i++)
+		data[i] = v[i];
+}
+
+Vector::Vector(int * v, int n) : Vector(n, 1)
+{
+	for (int i = 0; i < n; i++)
+		data[i] = v[i];
+}
+
 
 
 void Vector::operator=(const Vector& v)
@@ -199,7 +217,7 @@ void Vector::operator=(const Vector& v)
 			//if (CBLAS)
 			//	data = (double*) mkl_realloc(data,v.n*sizeof(double));
 			//else
-				data = (double*)malloc(sizeof(double)*v.n);
+				data = (double*)realloc(data,sizeof(double)*v.n);
 		memcpy(data,v.data,sizeof(double)*v.n);
 		break;
 	}

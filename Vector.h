@@ -35,6 +35,9 @@ public:
 	~Vector(void);
 	
 	Vector (const Vector& v);
+	Vector(vector<double> v);
+	Vector(double* v,int n);
+	Vector(int* v, int n);
 	Vector (Vector&& v);
 	Vector();
 	

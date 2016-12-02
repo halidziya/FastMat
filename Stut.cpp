@@ -7,7 +7,6 @@ Stut::Stut(Vector mean,Matrix cov,int dof)
 	mu = mean;
 	cholsigma = cov.chol();
 	eta = dof;
-	d = mean.n;
 	normalizer=calculateNormalizer();
 	coef1 = 0.5*(eta+d);
 }
