@@ -25,8 +25,6 @@ ADD_LIBRARY( FastMat STATIC
     Distribution.cpp
     Distribution.h
     FastMat.h
-    Global.cpp
-    Global.h
     IWishart.cpp
     IWishart.h
     Matrix.cpp
