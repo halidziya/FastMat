@@ -1,6 +1,6 @@
 #pragma once
 #include "Matrix.h"
-#include "Global.h"
+
 #include "Distribution.h"
 
 class IWishart : public Distribution<Matrix>

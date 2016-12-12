@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Global.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,9 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DebugUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\util.h">
@@ -123,7 +117,6 @@
     <Natvis Include="..\halid.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="Readme.md" />

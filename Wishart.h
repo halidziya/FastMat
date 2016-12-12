@@ -2,7 +2,7 @@
 #include "Distribution.h"
 #include "Matrix.h"
 #include "util.h"
-#include "Global.h"
+
 class Wishart : public Distribution<Matrix>
 {
 public:

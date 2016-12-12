@@ -41,8 +41,9 @@ IWishart::~IWishart()
 {
 }
 
-IWishart::IWishart()
+// Default version
+IWishart::IWishart() 
 {
-	psi = Psi;
-	df = m;
+	psi = eye(d);
+	df = d+2;
 }

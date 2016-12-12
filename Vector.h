@@ -12,10 +12,14 @@
 #include <initializer_list>
 #include <fstream>
 //#include <mkl.h>
-#define EPS 1e-8 // Floating point equality
-#include "Global.h"
-using namespace std;
 
+
+#define EPS 1e-8 // Floating point equality
+using namespace std;
+class Matrix;
+class Vector;
+/* Be careful do not overwrite d, it is fixed dimension of d, I didn't use another name for convinience */
+extern  int d; // dimensions
 
 /*	Vector Types :
 	TYPE 0 : Abstract	vector , just a pointer
@@ -124,6 +128,8 @@ extern MultiBuffer<Vector> absbuffer;
 extern MultiBuffer<Matrix> matbuffer;
 extern Matrix NULLMAT;
 
+
+/* Suggested use init_buffer(thread::hardware_concurrency(),d);	 in your main function*/
 void init_buffer(int nthreads,int d);
 Vector zeros(int d);
 Vector ones(int d);

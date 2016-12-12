@@ -6,7 +6,7 @@ MultiBuffer<Vector> buffer;
 MultiBuffer<Vector> absbuffer(1,BUFF_SIZE,0,0);
 MultiBuffer<Matrix> matbuffer;
 Matrix NULLMAT;
-
+int d = 0; // dimensions
 void init_buffer(int nthreads,int d)
 {
 	NULLMAT = zeros(0,0);

@@ -165,7 +165,6 @@
     <ClCompile Include="..\Buffer.cpp" />
     <ClCompile Include="..\Dirichlet.cpp" />
     <ClCompile Include="..\Distribution.cpp" />
-    <ClCompile Include="..\Global.cpp" />
     <ClCompile Include="..\Matrix.cpp" />
     <ClCompile Include="..\Normal.cpp" />
     <ClCompile Include="..\Stut.cpp" />
@@ -181,7 +180,6 @@
     <ClInclude Include="..\Dirichlet.h" />
     <ClInclude Include="..\Distribution.h" />
     <ClInclude Include="..\FastMat.h" />
-    <ClInclude Include="..\Global.h" />
     <ClInclude Include="..\Matrix.h" />
     <ClInclude Include="..\Normal.h" />
     <ClInclude Include="..\Stut.h" />
@@ -200,7 +198,6 @@
   <ItemGroup>
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
-    <None Include="ClassDiagram.cd" />
     <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

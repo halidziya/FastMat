@@ -1,7 +1,7 @@
 #pragma once
 #include "Matrix.h"
 #include "Distribution.h"
-#include "Global.h"
+
 
 class Normal : public Distribution<Vector>
 {
