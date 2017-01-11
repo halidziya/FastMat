@@ -149,8 +149,10 @@ Vector::Vector(Vector&& v)
 	data  = v.data;
 	v.data = NULL;
 	v.n = 0;
-	v.type = 0; // No longer valid vector
-	type = 1; // Owns the resource
+	type = v.type;
+	if (v.type == 1) {
+		v.type = 0; // No longer valid vector
+	}
 }
 
 Vector::Vector(const Vector& v)
@@ -371,7 +373,7 @@ Vector Vector::unique()
 	return res;
 }
 
-Vector& Vector::operator*(double scalar)
+Vector& Vector::operator*(double scalar) const
 {
 	Vector& r = buffer.get();
 	for(int i=0;i<n;i++)
@@ -379,7 +381,7 @@ Vector& Vector::operator*(double scalar)
 	return buffer.next();
 }
 
-Vector& Vector::operator-(Vector& v)
+Vector& Vector::operator-(const Vector& v) const
 {
 	Vector& r = buffer.get();
 	/*if (CBLAS)
@@ -394,7 +396,7 @@ Vector& Vector::operator-(Vector& v)
 	return buffer.next();
 }
 
-Vector& Vector::operator+(Vector& v)
+Vector& Vector::operator+(const Vector& v) const
 {
 	Vector& r = buffer.get();
 	/*if (CBLAS)
@@ -453,7 +455,7 @@ Vector& Vector::operator>=(double scalar)
 }
 
 
-Vector& Vector::operator+(double scalar)
+Vector& Vector::operator+(double scalar) const
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
@@ -461,7 +463,7 @@ Vector& Vector::operator+(double scalar)
 	return buffer.next();
 }
 
-Vector& Vector::operator-(double scalar)
+Vector& Vector::operator-(double scalar) const
 {
 	Vector& r = buffer.get();
 	for (int i = 0; i<n; i++)
