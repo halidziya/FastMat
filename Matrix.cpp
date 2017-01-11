@@ -54,6 +54,10 @@ Matrix::Matrix(int r) : Vector(r*r)
 	triangle = false;
 }
 
+Matrix::Matrix(double* data, int d) :Vector(data, d*d) {
+
+}
+
 
 
 
@@ -92,7 +96,7 @@ void Matrix::readMatrix(char* filename)
 	}
 }
 
-void Matrix::writeMatrix(char* filename)
+void Matrix::writeMatrix(const char* filename)
 {
 	ofstream file(filename);
 	int i,j;
@@ -125,6 +129,7 @@ void Matrix::writeBin(string filename)
 /* Get Row */
 Vector& Matrix::operator[](int i){
 	absbuffer.get().data = data + m*i;
+	absbuffer.get().n = m;
 	return absbuffer.next();
 }
 

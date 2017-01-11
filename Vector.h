@@ -62,7 +62,7 @@ public:
 	int		operator()(int i);	 // Return integer
 	double operator*(Vector& v); // Inner product
 	//Vector operator*(Matrix& m); //
-	Vector& operator-(Vector& v); // Subtraction
+	Vector& operator-(const Vector& v) const; // Subtraction
 	Vector& operator/(Matrix& mat); // Matrix division
 	Vector& operator/(Vector& vec); // Element-wise division
 	void operator=(const Vector& v); // Assignment 
@@ -79,10 +79,10 @@ public:
 	void operator*=(const Vector& v); // Inplace addition works on arbitrary size
 
 	
-	Vector& operator*(double scalar); // Scaling
-	Vector& operator+(double scalar); // Add scalar to all elements
-	Vector& operator-(double scalar); // Subtract scalar to all elements
-	Vector& operator+(Vector& v);	// Summation
+	Vector& operator*(double scalar) const; // Scaling
+	Vector& operator+(double scalar) const; // Add scalar to all elements
+	Vector& operator-(double scalar) const; // Subtract scalar to all elements
+	Vector& operator+(const Vector& v) const;	// Summation
 	Vector& operator/(double scalar); // Elementwise comparison
 	Vector& operator<(double scalar); // Elementwise comparison
 	Vector& operator>(double scalar);

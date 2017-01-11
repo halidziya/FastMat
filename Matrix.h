@@ -4,21 +4,22 @@ class Matrix :
 	public Vector
 {
 public:
-	int m;
-	int r;
+	int m;	// Number of dimensions
+	int r;	// Number of rows
 	int triangle;
 
 
 	Matrix(void);
 	Matrix(int d);
 	Matrix(int r,int m,int real=1);			// refcount
+	Matrix(double* data, int d);		// Construct a Matrix from a double array. Row major.
 	Matrix(Matrix&& mat);			// Move
 	Matrix(const Matrix& mat);			// Copy
 									// 1 is standart , 2  is persistent , 0 is abstract
 	~Matrix(void);
 	
 	void readMatrix(char* filename);
-	void writeMatrix(char* filename);
+	void writeMatrix(const char* filename);
 
 	
 
