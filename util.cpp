@@ -95,6 +95,7 @@ int sampleFromLog(Vector & v)
 	return sample(v);
 }
 
+// Ids indexed from 0
 vector<int> trange(int max, int nparts, int id)
 {
 	int chunksize = ceil( (1.0*max) / nparts);

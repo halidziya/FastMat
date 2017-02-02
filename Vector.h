@@ -113,7 +113,6 @@ public:
 	Vector append(Vector& v);
 	Vector append(double d);
 
-
 	friend ostream& operator<<(ostream& os, const Vector& v);
 	friend istream& operator>>(istream& is, Vector& v);
 	void writeBin(string filename);

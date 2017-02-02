@@ -20,6 +20,8 @@ extern Vector gl_pc;
 void precomputegamLn(int size);
 int sampleFromLog(Vector& v);
 int sample(Vector& v);
+
+// Generates data chunk range, Ids indexed from 0
 vector<int> trange(int max, int nparts, int id);
 
 bool fexists(const char *filename);
