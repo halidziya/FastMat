@@ -43,7 +43,7 @@ double Stut::likelihood(Vector& x)
 {
 	int i, j;
 	double dist = 0, disti = 0;
-	Vector& dd = buffer.get();
+	Vector& dd = buffer.next();
 	dd = x;
 	dd -= mu; // Faster performance 
 	for (i = 0; i < d; i++) {
