@@ -18,6 +18,7 @@ bool checkVectors(Vector& v1, Vector& v2);
 
 extern Vector gl_pc;
 void precomputegamLn(int size);
+double getGamln(double x);
 int sampleFromLog(Vector& v);
 int sample(Vector& v);
 

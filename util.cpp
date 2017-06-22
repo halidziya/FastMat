@@ -7,6 +7,7 @@
 #include <float.h>
 #include "util.h"
 #include <math.h>
+#include <map>
 
 #ifdef _MSC_VER
 #define finite _finite
@@ -68,7 +69,20 @@ double gamlnd(int x,int d) // Actually works on x/2
 	return (log(M_PI)*d*(d - 1) / 4) + res;
 }
 
-
+map<int, double> gl_memorized;
+double getGamln(double x)
+{
+	if (x - floor(x) == 0) { // x is integer
+		if (gl_memorized.find(x) == gl_memorized.end()) {
+			// Not in memory, calculate and memorize it.
+			gl_memorized[x] = gamln(x / 2.0);
+		}
+		return gl_memorized[x];
+	}
+	else {	// x is float
+		return gamln(x / 2.0);
+	}
+}
 
 int sample(Vector& v)
 {

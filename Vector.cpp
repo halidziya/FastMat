@@ -7,13 +7,14 @@ MultiBuffer<Vector> absbuffer(1,BUFF_SIZE,0,0);
 MultiBuffer<Matrix> matbuffer;
 Matrix NULLMAT;
 int d = 0; // dimensions
-void init_buffer(int nthreads,int d)
+void init_buffer(int nthreads,int dim)
 {
+	d = dim;
 	NULLMAT = zeros(0,0);
 	nthreads = nthreads + 1; // And one master thread
-	new (&matbuffer) MultiBuffer<Matrix>(nthreads,BUFF_SIZE,d,2);
-	new (&buffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,d,2);
-	new (&absbuffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,d,0); // Not a real buffer
+	new (&matbuffer) MultiBuffer<Matrix>(nthreads,BUFF_SIZE,dim,2);
+	new (&buffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,dim,2);
+	new (&absbuffer) MultiBuffer<Vector>(nthreads,BUFF_SIZE,dim,0); // Not a real buffer
 }
 
 Vector::Vector(int size,int real):n(size)
