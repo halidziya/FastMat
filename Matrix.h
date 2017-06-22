@@ -41,6 +41,7 @@ public:
 	double sumlogdiag();
 	Vector& mean();
 	Matrix& chol();
+	Matrix& chol(Vector x); // Incremental cholesky decomposition. The matrix itself should be a decomposition.
 	Matrix& transpose();
 	Matrix& inverse();
 	Matrix& scatter();

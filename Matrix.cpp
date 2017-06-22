@@ -135,6 +135,7 @@ Vector& Matrix::operator[](int i){
 
 Vector& Matrix::operator()(int i) {
 	absbuffer.get().data = data + m*i;
+	absbuffer.get().n = m;
 	return absbuffer.next();
 }
 
@@ -182,6 +183,32 @@ Matrix& Matrix::chol()
 
 
 	mat.triangle = true;
+	return matbuffer.next();
+}
+
+
+Matrix & Matrix::chol(Vector x)
+{
+	Matrix& L = matbuffer.get();
+	L = *this;
+	double r,c,s;
+	if (!triangle) {
+		printf("Error in Matrix::chol(Vector x): You can only do incremental updating when the matrix is already a decomposition.\n");
+		exit(1);
+	}
+	for (int i = 0; i < x.n; i++) {
+		r = std::sqrt(pow(L(i, i), 2) + pow(x[i], 2));
+		c = r / L(i, i);
+		s = x[i] / L(i, i);
+		L(i, i) = r;
+		for (int j = 1; j < x.n-i; j++) {
+			/*L(i, i + j) = (L(i, i + j) + s*x(i + j)) / c;
+			x.data[i + j] = c*x(i + j) - s*L(i, i + j);*/
+			L(i + j, i) = (L(i + j, i) + s*x[i + j]) / c;
+			x.data[i + j] = c*x[i + j] - s*L(i + j, i);
+		}
+	}
+
 	return matbuffer.next();
 }
 

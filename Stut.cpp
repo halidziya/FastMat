@@ -13,7 +13,7 @@ Stut::Stut(Vector mean,Matrix cov,int dof)
 
 double Stut::calculateNormalizer()
 {
-	normalizer=gl_pc[(eta+d)]-(gl_pc[eta] + (d/2.0)*log(eta) +(d/2.0)*log(M_PI))-cholsigma.sumlogdiag();
+	normalizer = getGamln((eta + d)) - (getGamln(eta) + (d / 2.0)*log(eta) + (d / 2.0)*log(M_PI)) - cholsigma.sumlogdiag();
 	coef1 = 0.5*(eta+d);
 	return normalizer;
 }
