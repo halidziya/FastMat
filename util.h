@@ -15,6 +15,7 @@ double gamln(double x);
 double gamlnd(int x, int d);
 double harmean(double x,double y);
 bool checkVectors(Vector& v1, Vector& v2);
+double sigmoid(double x);
 
 extern Vector gl_pc;
 void precomputegamLn(int size);
