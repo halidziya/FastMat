@@ -1,0 +1,3 @@
+/home/halidziya/Desktop/HIGMM/FastMat/CMakeFiles/edit_cache.dir
+/home/halidziya/Desktop/HIGMM/FastMat/CMakeFiles/rebuild_cache.dir
+/home/halidziya/Desktop/HIGMM/FastMat/CMakeFiles/FastMat.dir
