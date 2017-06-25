@@ -197,7 +197,7 @@ Matrix & Matrix::chol(Vector x)
 		exit(1);
 	}
 	for (int i = 0; i < x.n; i++) {
-		r = std::sqrt(pow(L(i, i), 2) + pow(x[i], 2));
+		r = ::sqrt(pow(L(i, i), 2) + pow(x[i], 2));
 		c = r / L(i, i);
 		s = x[i] / L(i, i);
 		L(i, i) = r;
