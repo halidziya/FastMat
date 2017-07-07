@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "FastMat",
+            "includePath": ["/usr/include"],
+            "defines": [],
+            "browse": {
+                "path": [],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ]
+}

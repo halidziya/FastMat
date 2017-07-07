@@ -126,6 +126,11 @@ double harmean(double x,double y)
 }
 
 
+double sigmoid(double x)
+{
+	return 1/(1+exp(-x));
+}
+
 bool checkVectors(Vector& v1, Vector& v2)
 {
 	int iscopy = 1;
