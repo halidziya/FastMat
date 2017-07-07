@@ -18,7 +18,7 @@ public:
 									// 1 is standart , 2  is persistent , 0 is abstract
 	~Matrix(void);
 	
-	void readMatrix(char* filename);
+	void readMatrix(const char* filename);
 	void writeMatrix(const char* filename);
 
 	
@@ -43,6 +43,7 @@ public:
 	Matrix& chol();
 	Matrix& chol(Vector x); // Incremental cholesky decomposition. The matrix itself should be a decomposition.
 	Matrix& transpose();
+	Matrix transpose_xy();
 	Matrix& inverse();
 	Matrix& scatter();
 	Matrix& cov();
