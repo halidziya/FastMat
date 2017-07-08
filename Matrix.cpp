@@ -74,7 +74,7 @@ void Matrix::eye()
 		data[i*m + i] = 1;
 }
 
-void Matrix::readMatrix(char* filename)
+void Matrix::readMatrix(const char* filename)
 {
 	ifstream file(filename);
 	int i,j;
@@ -84,6 +84,7 @@ void Matrix::readMatrix(char* filename)
 	{
 		printf("Reading %s...\n",filename);
 		file >> r >> m;
+		n = r*m;
 		//if (CBLAS)
 		//	data = (double*) mkl_malloc(sizeof(double)*r*m,64);
 		//else
@@ -277,6 +278,7 @@ Matrix& Matrix::operator*(double scalar)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
+	mati.m = m; mati.r = r; mati.triangle = triangle;
 	for(i=0;i<n;i++)
 		mati.data[i] = data[i]*scalar;
 	return matbuffer.next();
@@ -294,6 +296,15 @@ Matrix& Matrix::transpose()
 	return matbuffer.next();
 }
 
+Matrix Matrix::transpose_xy()
+{
+	Matrix mati; mati.resize(m, r);
+	for (auto i = 0; i < r; i++)
+		for (auto j = 0; j < m; j++) {
+			mati.data[j*r + i] = data[i*m + j];
+		}
+	return mati;
+}
 
 Matrix& Matrix::inverse()
 {
@@ -392,6 +403,7 @@ Matrix& Matrix::operator/(double scalar)
 {
 	int i;
 	Matrix& mati = matbuffer.get();
+	mati.m = m; mati.r = r; mati.triangle = triangle;
 	double divone = 1.0/scalar;
 	for(i=0;i<n;i++)
 		mati.data[i] = data[i]*divone;
