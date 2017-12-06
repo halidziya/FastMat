@@ -3,3 +3,5 @@ Distinct features of this library there is a calculation buffer for fixed size v
 Also it uses threads that could divide computation into multiple cores.
 It also contains few distributions that could be extended later
 MKL support is disabled due to similar performance measurements
+
+Warning : This library works on square matrices which is suitable and efficient for covariances. It is not yet for general purpose linear algebra
